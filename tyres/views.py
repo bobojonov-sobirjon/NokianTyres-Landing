@@ -34,6 +34,11 @@ def index(request):
     # Get portfolio items from database
     portfolio_items = PortfolioItem.objects.filter(is_featured=True).order_by('-created_at')[:12]
     
+    # Debug logging
+    print(f"DEBUG: Found {portfolio_items.count()} portfolio items")
+    for item in portfolio_items:
+        print(f"DEBUG: - {item.title} ({item.category}) - Featured: {item.is_featured}")
+    
     context = {
         'form': form,
         'portfolio_items': portfolio_items,

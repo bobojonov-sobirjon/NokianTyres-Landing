@@ -765,8 +765,13 @@
           </ul>
 
           <div class="row g-4 isotope-container" data-aos="fade-up" data-aos-delay="300">
+            <!-- DEBUG: Show portfolio items count -->
+            <div class="col-12">
+              <p class="text-white">DEBUG: Portfolio items count: {{ portfolio_items|length }}</p>
+            </div>
+            
             {% for item in portfolio_items %}
-            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item {{ item.get_filter_class }}">
+            <div class="col-xl-3 col-lg-4 col-md-6 portfolio-item isotope-item {{ item.get_filter_class }}" style="display: block !important;">
               <article class="portfolio-entry modern-tire-card">
                 <figure class="entry-image">
                   <img src="{{ item.image.url }}" class="img-fluid" alt="{{ item.title }}" loading="lazy">

@@ -139,14 +139,36 @@
     let sort = isotopeItem.getAttribute('data-sort') ?? 'original-order';
 
     let initIsotope;
-    imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
-      initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
-        itemSelector: '.isotope-item',
-        layoutMode: layout,
-        filter: filter,
-        sortBy: sort
-      });
-    });
+    
+    // Function to initialize isotope
+    function initializeIsotope() {
+      try {
+        initIsotope = new Isotope(isotopeItem.querySelector('.isotope-container'), {
+          itemSelector: '.isotope-item',
+          layoutMode: layout,
+          filter: filter,
+          sortBy: sort
+        });
+        console.log('Isotope initialized successfully');
+      } catch (error) {
+        console.error('Error initializing Isotope:', error);
+      }
+    }
+    
+    // Try to use imagesLoaded, but fallback to immediate initialization
+    if (typeof imagesLoaded !== 'undefined') {
+      try {
+        imagesLoaded(isotopeItem.querySelector('.isotope-container'), function() {
+          initializeIsotope();
+        });
+      } catch (error) {
+        console.warn('imagesLoaded failed, initializing immediately:', error);
+        initializeIsotope();
+      }
+    } else {
+      console.warn('imagesLoaded not available, initializing immediately');
+      initializeIsotope();
+    }
 
     isotopeItem.querySelectorAll('.isotope-filters li').forEach(function(filters) {
       filters.addEventListener('click', function() {
