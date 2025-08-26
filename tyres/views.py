@@ -32,12 +32,7 @@ def index(request):
         form = TireApplicationForm()
 
     # Get portfolio items from database
-    portfolio_items = PortfolioItem.objects.filter(is_featured=True).order_by('-created_at')[:12]
-    
-    # Debug logging
-    print(f"DEBUG: Found {portfolio_items.count()} portfolio items")
-    for item in portfolio_items:
-        print(f"DEBUG: - {item.title} ({item.category}) - Featured: {item.is_featured}")
+    portfolio_items = PortfolioItem.objects.all().order_by('-created_at')
     
     context = {
         'form': form,
