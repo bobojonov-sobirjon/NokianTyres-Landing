@@ -1,0 +1,809 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подбор шин Nokian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .tire-selection-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .main-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .selection-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            height: 100%;
+            display: block;
+            width: 100%;
+        }
+        
+        /* Mobile specific styles */
+        @media (max-width: 767px) {
+            .selection-card {
+                margin-bottom: 20px;
+                padding: 20px;
+            }
+            
+            .main-card {
+                padding: 25px 20px;
+            }
+            
+            .tire-selection-container {
+                padding: 0 15px;
+            }
+            
+            .row.g-3 > .col-12 {
+                margin-bottom: 15px;
+            }
+            
+            .selection-card:last-child {
+                margin-bottom: 0;
+            }
+        }
+        
+        .selection-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .selection-card.active {
+            border-color: #51b848;
+            background: linear-gradient(135deg, #fff 0%, #f0fff0 100%);
+            box-shadow: 0 8px 25px rgba(81, 184, 72, 0.2);
+        }
+        
+        .selection-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #6c757d;
+            display: block;
+        }
+        
+        .selection-card.active .icon {
+            color: #51b848;
+        }
+        
+        .selection-card h3 {
+            color: #343a40;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .selection-card.active h3 {
+            color: #51b848;
+        }
+        
+        .selection-card p {
+            color: #6c757d;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #dee2e6;
+            margin: 0 6px;
+            transition: all 0.3s ease;
+        }
+        
+        .step-dot.active {
+            background: #51b848;
+            transform: scale(1.3);
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .form-section h4 {
+            color: #343a40;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .form-section .icon {
+            color: #51b848;
+            font-size: 1.3rem;
+        }
+        
+        .option-card {
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .option-card:hover {
+            border-color: #51b848;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+        
+        .option-card.selected {
+            border-color: #51b848;
+            background: linear-gradient(135deg, #fff 0%, #f0fff0 100%);
+            box-shadow: 0 6px 20px rgba(81, 184, 72, 0.15);
+        }
+        
+        .option-card .icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .option-card h5 {
+            margin: 8px 0 5px 0;
+            color: #343a40;
+            font-size: 1.1rem;
+        }
+        
+        .option-card p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.85rem;
+        }
+        
+        .btn-primary-custom {
+            background: #51b848;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            background: #45a038;
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 6px 20px rgba(81, 184, 72, 0.3);
+        }
+        
+        .btn-secondary-custom {
+            background: transparent;
+            border: 2px solid #6c757d;
+            color: #6c757d;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary-custom:hover {
+            background: #6c757d;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #51b848 0%, #45a038 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        
+        .result-card h4 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .summary-container {
+            margin: 20px 0;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+            color: #000000;
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-item .icon {
+            color: #51b848;
+            font-size: 1.1rem;
+        }
+        
+        .summary-item span {
+            color: #000000;
+            font-weight: 500;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .contact-form {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .contact-methods {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .contact-method-btn {
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .contact-method-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .contact-method-btn[data-method="whatsapp"] {
+            background: #25d366;
+            color: white;
+        }
+
+        .contact-method-btn[data-method="whatsapp"]:hover {
+            background: #128c7e;
+        }
+
+        .contact-method-btn[data-method="telegram"] {
+            background: #0088cc;
+            color: white;
+        }
+
+        .contact-method-btn[data-method="telegram"]:hover {
+            background: #006699;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: #1976d2;
+        }
+        
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #dee2e6;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #51b848;
+            box-shadow: 0 0 0 0.2rem rgba(81, 184, 72, 0.25);
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #dee2e6;
+            border-radius: 2px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: #51b848;
+            transition: width 0.5s ease;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            color: #6c757d;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .section-subtitle {
+            color: #343a40;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .section-subtitle .icon {
+            color: #51b848;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="tire-selection-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <!-- Step Indicator -->
+        <div class="step-indicator" id="stepIndicator">
+            <div class="step-dot active"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+            <div class="step-dot"></div>
+        </div>
+
+                 <!-- Step 1: Selection Type -->
+         <div class="main-card" id="step1">
+             <div class="row g-3">
+                 <div class="col-12 col-md-6">
+                     <div class="selection-card" data-type="by_size">
+                         <div class="text-center">
+                             <i class="bi bi-rulers icon"></i>
+                             <h3>Подбор по размерам</h3>
+                             <p>Знаю размер шин</p>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-12 col-md-6">
+                     <div class="selection-card active" data-type="by_car">
+                         <div class="text-center">
+                             <i class="bi bi-car-front icon"></i>
+                             <h3>Подбор по автомобилю</h3>
+                             <p>Укажу марку и модель</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             
+             <!-- Back to Website Button -->
+             <div class="text-center mt-4">
+                 <button class="btn btn-outline-secondary" id="backToWebsiteBtnStep1">
+                     <i class="bi bi-house-door me-2"></i>
+                     Вернуться на сайт
+                 </button>
+             </div>
+         </div>
+
+        <!-- Step 2: Car Information (for car-based selection) -->
+        <div class="form-section hidden" id="step2">
+            <h4><i class="bi bi-car-front icon"></i>Информация об автомобиле</h4>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Марка</label>
+                    <select class="form-select" id="carMake">
+                        <option value="">Выберите марку</option>
+                        <option value="toyota">Toyota</option>
+                        <option value="bmw">BMW</option>
+                        <option value="mercedes">Mercedes</option>
+                        <option value="audi">Audi</option>
+                        <option value="volkswagen">Volkswagen</option>
+                        <option value="hyundai">Hyundai</option>
+                        <option value="kia">Kia</option>
+                        <option value="lada">Лада</option>
+                        <option value="renault">Renault</option>
+                        <option value="ford">Ford</option>
+                        <option value="other">Другая</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Модель</label>
+                    <input type="text" class="form-control" id="carModel" placeholder="Camry, X5, A4...">
+                </div>
+            </div>
+            
+            <h4 class="mt-4"><i class="bi bi-wrench icon"></i>Сезон использования</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="option-card" data-season="summer">
+                        <i class="bi bi-sun icon" style="color: #ffc107;"></i>
+                        <h5>Летние</h5>
+                        <p>+5°С и выше</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-season="winter">
+                        <i class="bi bi-snow icon" style="color: #17a2b8;"></i>
+                        <h5>Зимние</h5>
+                        <p>До +7°С</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-season="all_season">
+                        <i class="bi bi-globe icon" style="color: #28a745;"></i>
+                        <h5>Всесезонные</h5>
+                        <p>Круглый год</p>
+                    </div>
+                </div>
+            </div>
+            
+                         <!-- Winter type selection (hidden by default) -->
+             <div id="winterTypeSelection" class="hidden">
+                 <h5 class="mt-3">Тип зимних шин</h5>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <div class="option-card" data-winter-type="spikes">
+                             <i class="bi bi-lightning icon" style="color: #fd7e14;"></i>
+                             <h5>Шипы</h5>
+                             <p>Для льда</p>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="option-card" data-winter-type="friction">
+                             <i class="bi bi-box icon" style="color: #17a2b8;"></i>
+                             <h5>Липучка</h5>
+                             <p>Тише и комфортнее</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             
+             <!-- Back to Website Button -->
+             <div class="text-center mt-4">
+                 <button class="btn btn-outline-secondary" id="backToWebsiteBtnStep2">
+                     <i class="bi bi-house-door me-2"></i>
+                     Вернуться на сайт
+                 </button>
+             </div>
+        </div>
+
+        <!-- Step 2: Tire Size (for size-based selection) -->
+        <div class="form-section hidden" id="step2Size">
+            <h4><i class="bi bi-rulers icon"></i>Размер шин</h4>
+            <p class="text-muted mb-3">Найдите на боковине: 205/55 R16</p>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">Ширина</label>
+                    <select class="form-select" id="tireWidth">
+                        <option value="">---</option>
+                        <option value="175">175</option>
+                        <option value="185">185</option>
+                        <option value="195">195</option>
+                        <option value="205">205</option>
+                        <option value="215">215</option>
+                        <option value="225">225</option>
+                        <option value="235">235</option>
+                        <option value="245">245</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Профиль</label>
+                    <select class="form-select" id="tireProfile">
+                        <option value="">---</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                        <option value="55">55</option>
+                        <option value="60">60</option>
+                        <option value="65">65</option>
+                        <option value="70">70</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Радиус</label>
+                    <select class="form-select" id="tireRadius">
+                        <option value="">R--</option>
+                        <option value="14">R14</option>
+                        <option value="15">R15</option>
+                        <option value="16">R16</option>
+                        <option value="17">R17</option>
+                        <option value="18">R18</option>
+                        <option value="19">R19</option>
+                        <option value="20">R20</option>
+                    </select>
+                </div>
+            </div>
+            
+            <h4 class="mt-4"><i class="bi bi-thermometer-half icon"></i>Сезон использования</h4>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="option-card" data-season="summer">
+                        <i class="bi bi-sun icon" style="color: #ffc107;"></i>
+                        <h5>Летние</h5>
+                        <p>+5°С и выше</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-season="winter">
+                        <i class="bi bi-snow icon" style="color: #17a2b8;"></i>
+                        <h5>Зимние</h5>
+                        <p>До +7°С</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-season="all_season">
+                        <i class="bi bi-globe icon" style="color: #28a745;"></i>
+                        <h5>Всесезонные</h5>
+                        <p>Круглый год</p>
+                    </div>
+                </div>
+            </div>
+            
+                         <!-- Winter type selection for size-based (hidden by default) -->
+             <div id="winterTypeSelectionSize" class="hidden">
+                 <h5 class="mt-3">Тип зимних шин</h5>
+                 <div class="row">
+                     <div class="col-md-6">
+                         <div class="option-card" data-winter-type="spikes">
+                             <i class="bi bi-lightning icon" style="color: #fd7e14;"></i>
+                             <h5>Шипы</h5>
+                             <p>Для льда</p>
+                         </div>
+                     </div>
+                     <div class="col-md-6">
+                         <div class="option-card" data-winter-type="friction">
+                             <i class="bi bi-box icon" style="color: #17a2b8;"></i>
+                             <h5>Липучка</h5>
+                             <p>Тише и комфортнее</p>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             
+             <!-- Back to Website Button -->
+             <div class="text-center mt-4">
+                 <button class="btn btn-outline-secondary" id="backToWebsiteBtnStep2Size">
+                     <i class="bi bi-house-door me-2"></i>
+                     Вернуться на сайт
+                 </button>
+             </div>
+        </div>
+
+        <!-- Step 3: User Preferences -->
+        <div class="form-section hidden" id="step3">
+            <h4><i class="bi bi-bullseye icon"></i>Ваши предпочтения</h4>
+            <p class="text-muted mb-4">Поможет подобрать оптимальную модель</p>
+            
+            <h5 class="section-subtitle"><i class="bi bi-cash-coin icon"></i>Бюджет на комплект</h5>
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="option-card" data-budget="economy">
+                        <h5>До 15,000₽</h5>
+                        <p>Экономия</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-budget="optimum">
+                        <h5>15-25,000₽</h5>
+                        <p>Оптимум</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="option-card" data-budget="premium">
+                        <h5>25,000₽+</h5>
+                        <p>Премиум</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h5 class="section-subtitle"><i class="bi bi-bullseye icon"></i>Приоритет</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="option-card" data-priority="safety">
+                        <i class="bi bi-shield-check icon" style="color: #17a2b8;"></i>
+                        <h5>Безопасность</h5>
+                        <p>Торможение</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="option-card" data-priority="comfort">
+                        <i class="bi bi-emoji-smile icon" style="color: #ffc107;"></i>
+                        <h5>Комфорт</h5>
+                        <p>Тишина</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="option-card" data-priority="sport">
+                        <i class="bi bi-flag icon" style="color: #51b848;"></i>
+                        <h5>Спорт</h5>
+                        <p>Управляемость</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="option-card" data-priority="economy">
+                        <i class="bi bi-cash-coin icon" style="color: #ffc107;"></i>
+                        <h5>Экономия</h5>
+                        <p>Износостойкость</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="text-center mt-4" id="navigationButtons">
+            <button class="btn btn-secondary-custom me-3" id="backBtn">← Назад</button>
+            <button class="btn btn-primary-custom" id="nextBtn">Далее →</button>
+            
+            <!-- Back to Website Button -->
+            <div class="mt-3">
+                <button class="btn btn-outline-secondary" id="backToWebsiteBtnStep3">
+                    <i class="bi bi-house-door me-2"></i>
+                    Вернуться на сайт
+                </button>
+            </div>
+        </div>
+
+        <!-- Step 4: Application Summary and Contact Form -->
+        <div class="form-section hidden" id="step4">
+            <h4><i class="bi bi-clipboard-check icon"></i>Сводка заявки</h4>
+            <p class="text-muted mb-4">Проверьте данные и выберите способ связи</p>
+            
+            <!-- Application Summary -->
+            <div class="summary-container mb-4">
+                <div id="applicationSummary">
+                    <!-- Summary items will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form">
+                <h5 class="section-subtitle mb-3"><i class="bi bi-person-lines-fill icon"></i>Контактные данные</h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">ФИО</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Введите ваше полное имя">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Телефон</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="+7 (999) 123-45-67">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label class="form-label">Email (необязательно)</label>
+                        <input type="email" class="form-control" id="email" placeholder="example@email.com">
+                    </div>
+                </div>
+
+                <!-- Contact Method Selection -->
+                <div class="contact-methods mt-4">
+                    <h5 class="section-subtitle mb-3"><i class="bi bi-chat-dots icon"></i>Выберите способ связи</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-success btn-lg w-100 contact-method-btn" data-method="whatsapp">
+                                <i class="bi bi-whatsapp me-2"></i>
+                                WhatsApp
+                            </button>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button class="btn btn-info btn-lg w-100 contact-method-btn" data-method="telegram">
+                                <i class="bi bi-telegram me-2"></i>
+                                Telegram
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Back to Website Button -->
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <button class="btn btn-secondary btn-lg w-100" id="backToWebsiteBtn">
+                                <i class="bi bi-house-door me-2"></i>
+                                Вернуться на сайт
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CSRF Token -->
+    <script>
+        // Add CSRF token to all AJAX requests
+        function getCSRFToken() {
+            const name = 'csrftoken';
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        
+        // Set CSRF token for all fetch requests
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options = {}) {
+            if (options.method && options.method.toUpperCase() !== 'GET') {
+                options.headers = options.headers || {};
+                options.headers['X-CSRFToken'] = getCSRFToken();
+            }
+            return originalFetch(url, options);
+        };
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'assets/js/tire-selection.js' %}"></script>
+</body>
+</html>
