@@ -1,20 +1,17 @@
+// Tire Selection Quiz JavaScript
 class TireSelection {
     constructor() {
         this.currentStep = 1;
-        this.maxSteps = 4;
-        this.selectionType = 'by_car';
-        this.applicationData = {
-            selection_type: 'by_car',
-            car_make: '',
-            car_model: '',
-            tire_width: '',
-            tire_profile: '',
-            tire_radius: '',
+        this.totalSteps = 4;
+        this.quizData = {
+            selectionType: 'by_car',
+            carMake: '',
+            carModel: '',
             season: '',
-            winter_type: '',
+            winterType: '',
             budget: '',
             priority: '',
-            full_name: '',
+            fullName: '',
             phone: '',
             email: ''
         };
@@ -22,326 +19,276 @@ class TireSelection {
         this.init();
     }
     
-    init() {
-        this.bindEvents();
-        this.updateProgress();
-        this.updateStepIndicator();
-    }
+         init() {
+         this.bindEvents();
+         this.updateProgress();
+         this.updateStepIndicator();
+     }
     
-    bindEvents() {
-        // Selection type cards
-        document.querySelectorAll('.selection-card').forEach(card => {
-            card.addEventListener('click', (e) => {
-                this.selectCard(card);
-            });
-        });
-        
-        // Season selection
-        document.querySelectorAll('[data-season]').forEach(card => {
-            card.addEventListener('click', (e) => {
-                this.selectSeason(card);
-            });
-        });
-        
-        // Winter type selection
-        document.querySelectorAll('[data-winter-type]').forEach(card => {
-            card.addEventListener('click', (e) => {
-                this.selectWinterType(card);
-            });
-        });
-        
-        // Budget selection
-        document.querySelectorAll('[data-budget]').forEach(card => {
-            card.addEventListener('click', (e) => {
-                this.selectBudget(card);
-            });
-        });
-        
-        // Priority selection
-        document.querySelectorAll('[data-priority]').forEach(card => {
-            card.addEventListener('click', (e) => {
-                this.selectPriority(card);
-            });
-        });
-        
-        // Navigation buttons
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            this.nextStep();
-        });
-        
-        document.getElementById('backBtn').addEventListener('click', () => {
-            this.previousStep();
-        });
-        
-        // Car make change
-        document.getElementById('carMake').addEventListener('change', (e) => {
-            this.applicationData.car_make = e.target.value;
-            console.log('Car make updated:', this.applicationData.car_make);
-        });
-        
-        // Contact buttons will be initialized in initializeContactButtons() method
-        
-        // Back to website buttons
-        document.getElementById('backToWebsiteBtn').addEventListener('click', () => {
-            this.backToWebsite();
-        });
-        
-        document.getElementById('backToWebsiteBtnStep1').addEventListener('click', () => {
-            this.backToWebsite();
-        });
-        
-        document.getElementById('backToWebsiteBtnStep2').addEventListener('click', () => {
-            this.backToWebsite();
-        });
-        
-        document.getElementById('backToWebsiteBtnStep2Size').addEventListener('click', () => {
-            this.backToWebsite();
-        });
-        
-        document.getElementById('backToWebsiteBtnStep3').addEventListener('click', () => {
-            this.backToWebsite();
-        });
-        
-        // Car model change
-        document.getElementById('carModel').addEventListener('input', (e) => {
-            this.applicationData.car_model = e.target.value;
-            console.log('Car model updated:', this.applicationData.car_model);
-        });
-        
-        // Tire size changes
-        document.getElementById('tireWidth').addEventListener('change', (e) => {
-            this.applicationData.tire_width = e.target.value;
-            console.log('Tire width updated:', this.applicationData.tire_width);
-        });
-        
-        document.getElementById('tireProfile').addEventListener('change', (e) => {
-            this.applicationData.tire_profile = e.target.value;
-            console.log('Tire profile updated:', this.applicationData.tire_profile);
-        });
-        
-        document.getElementById('tireRadius').addEventListener('change', (e) => {
-            this.applicationData.tire_radius = e.target.value;
-            console.log('Tire radius updated:', this.applicationData.tire_radius);
-        });
-    }
+         bindEvents() {
+         // Selection type cards
+         document.querySelectorAll('.selection-card').forEach(card => {
+             card.addEventListener('click', (e) => {
+                 this.selectCard(e.currentTarget);
+             });
+         });
+         
+         // Car make selection
+         document.getElementById('carMake').addEventListener('change', (e) => {
+             this.updateCarModels(e.target.value);
+         });
+         
+         // Season selection
+         document.querySelectorAll('.option-card[data-season]').forEach(card => {
+             card.addEventListener('click', (e) => {
+                 this.selectSeason(e.currentTarget);
+             });
+         });
+         
+         // Winter type selection
+         document.querySelectorAll('.option-card[data-winter-type]').forEach(card => {
+             card.addEventListener('click', (e) => {
+                 this.selectWinterType(e.currentTarget);
+             });
+         });
+         
+         // Budget selection
+         document.querySelectorAll('.option-card[data-budget]').forEach(card => {
+             card.addEventListener('click', (e) => {
+                 this.selectBudget(e.currentTarget);
+             });
+         });
+         
+         // Priority selection
+         document.querySelectorAll('.option-card[data-priority]').forEach(card => {
+             card.addEventListener('click', (e) => {
+                 this.selectPriority(e.currentTarget);
+             });
+         });
+         
+         // Contact method buttons
+         document.querySelectorAll('.contact-method-card').forEach(btn => {
+             btn.addEventListener('click', (e) => {
+                 this.handleContactMethod(e.currentTarget.dataset.method);
+             });
+         });
+     }
     
     selectCard(card) {
         // Remove active class from all cards
-        document.querySelectorAll('.selection-card').forEach(c => {
-            c.classList.remove('active');
-        });
+        document.querySelectorAll('.selection-card').forEach(c => c.classList.remove('active'));
         
         // Add active class to selected card
         card.classList.add('active');
         
-        // Update selection type
-        this.selectionType = card.dataset.type;
-        this.applicationData.selection_type = this.selectionType;
+        // Store selection
+        this.quizData.selectionType = card.dataset.type;
         
-        console.log('Selection type updated:', this.selectionType);
-        console.log('Application data selection_type:', this.applicationData.selection_type);
+        // Automatically proceed to next step after selection
+        setTimeout(() => {
+            this.nextStep();
+        }, 500); // 0.5 second delay for better UX
     }
     
     selectSeason(card) {
         // Remove selected class from all season cards
-        document.querySelectorAll('[data-season]').forEach(c => {
-            c.classList.remove('selected');
-        });
+        document.querySelectorAll('.option-card[data-season]').forEach(c => c.classList.remove('selected'));
         
         // Add selected class to clicked card
         card.classList.add('selected');
         
-        // Update application data
-        this.applicationData.season = card.dataset.season;
+        // Store selection
+        this.quizData.season = card.dataset.season;
         
-        // Show/hide winter type selection
-        this.toggleWinterTypeSelection();
-    }
-    
-    selectWinterType(card) {
-        // Remove selected class from all winter type cards
-        document.querySelectorAll('[data-winter-type]').forEach(c => {
-            c.classList.remove('selected');
-        });
-        
-        // Add selected class to clicked card
-        card.classList.add('selected');
-        
-        // Update application data
-        this.applicationData.winter_type = card.dataset.winter_type;
-    }
-    
-    selectBudget(card) {
-        // Remove selected class from all budget cards
-        document.querySelectorAll('[data-budget]').forEach(c => {
-            c.classList.remove('selected');
-        });
-        
-        // Add selected class to clicked card
-        card.classList.add('selected');
-        
-        // Update application data
-        this.applicationData.budget = card.dataset.budget;
-    }
-    
-    selectPriority(card) {
-        // Remove selected class from all priority cards
-        document.querySelectorAll('[data-priority]').forEach(c => {
-            c.classList.remove('selected');
-        });
-        
-        // Add selected class to clicked card
-        card.classList.add('selected');
-        
-        // Update application data
-        this.applicationData.priority = card.dataset.priority;
-    }
-    
-    toggleWinterTypeSelection() {
-        const winterTypeSelection = document.getElementById('winterTypeSelection');
-        const winterTypeSelectionSize = document.getElementById('winterTypeSelectionSize');
-        
-        if (this.applicationData.season === 'winter') {
-            winterTypeSelection.classList.remove('hidden');
-            winterTypeSelectionSize.classList.remove('hidden');
+        // Show/hide winter type selection based on selection type
+        if (this.quizData.season === 'winter') {
+            if (this.quizData.selectionType === 'by_car') {
+                document.getElementById('winterTypeSelection').classList.remove('hidden');
+            } else if (this.quizData.selectionType === 'by_size') {
+                document.getElementById('winterTypeSelectionSize').classList.remove('hidden');
+            }
+            // Reset winter type when season changes to winter
+            this.quizData.winterType = '';
         } else {
-            winterTypeSelection.classList.add('hidden');
-            winterTypeSelectionSize.classList.add('hidden');
-            this.applicationData.winter_type = '';
+            document.getElementById('winterTypeSelection').classList.add('hidden');
+            document.getElementById('winterTypeSelectionSize').classList.add('hidden');
+            this.quizData.winterType = '';
+            
+            // If not winter, automatically proceed to next step after a short delay
+            setTimeout(() => {
+                this.nextStep();
+            }, 800);
         }
     }
     
-    nextStep() {
-        if (this.canProceedToNextStep()) {
-            this.currentStep++;
-            this.showCurrentStep();
-            this.updateProgress();
-            this.updateStepIndicator();
-            this.updateNavigationButtons();
-        }
-    }
+         selectWinterType(card) {
+         // Remove selected class from all winter type cards
+         document.querySelectorAll('.option-card[data-winter-type]').forEach(c => c.classList.remove('selected'));
+         
+         // Add selected class to clicked card
+         card.classList.add('selected');
+         
+         // Store selection
+         this.quizData.winterType = card.dataset.winterType;
+         
+         // Automatically proceed to next step after winter type selection
+         setTimeout(() => {
+             this.nextStep();
+         }, 800);
+     }
     
-    previousStep() {
-        if (this.currentStep > 1) {
-            this.currentStep--;
-            this.showCurrentStep();
-            this.updateProgress();
-            this.updateStepIndicator();
-            this.updateNavigationButtons();
-        }
-    }
+         selectBudget(card) {
+         // Remove selected class from all budget cards
+         document.querySelectorAll('.option-card[data-budget]').forEach(c => c.classList.remove('selected'));
+         
+         // Add selected class to clicked card
+         card.classList.add('selected');
+         
+         // Store selection
+         this.quizData.budget = card.dataset.budget;
+         
+         // Check if both budget and priority are selected, then proceed
+         if (this.quizData.budget && this.quizData.priority) {
+             setTimeout(() => {
+                 this.nextStep();
+             }, 800);
+         }
+     }
     
-    canProceedToNextStep() {
-        console.log('Checking if can proceed to next step. Current step:', this.currentStep);
-        console.log('Current application data:', this.applicationData);
-        
+         selectPriority(card) {
+         // Remove selected class from all priority cards
+         document.querySelectorAll('.option-card[data-priority]').forEach(c => c.classList.remove('selected'));
+         
+         // Add selected class to clicked card
+         card.classList.add('selected');
+         
+         // Store selection
+         this.quizData.priority = card.dataset.priority;
+         
+         // Check if both budget and priority are selected, then proceed
+         if (this.quizData.budget && this.quizData.priority) {
+             setTimeout(() => {
+                 this.nextStep();
+             }, 800);
+         }
+     }
+    
+         nextStep() {
+         if (this.validateCurrentStep()) {
+             if (this.currentStep < this.totalSteps) {
+                 this.currentStep++;
+                 this.showStep(this.currentStep);
+                 this.updateProgress();
+                 this.updateStepIndicator();
+             }
+         }
+     }
+    
+         previousStep() {
+         if (this.currentStep > 1) {
+             this.currentStep--;
+             this.showStep(this.currentStep);
+             this.updateProgress();
+             this.updateStepIndicator();
+         }
+     }
+    
+         showStep(step) {
+         // Hide all steps
+         document.querySelectorAll('.quiz-step').forEach(s => s.classList.add('hidden'));
+         
+         // Show current step based on selection type
+         if (step === 2) {
+             if (this.quizData.selectionType === 'by_car') {
+                 document.getElementById('step2').classList.remove('hidden');
+             } else if (this.quizData.selectionType === 'by_size') {
+                 document.getElementById('step2Size').classList.remove('hidden');
+             }
+         } else {
+             document.getElementById(`step${step}`).classList.remove('hidden');
+         }
+         
+         // Update application summary when showing the final step
+         if (step === this.totalSteps) {
+             this.updateApplicationSummary();
+         }
+     }
+    
+    validateCurrentStep() {
         switch (this.currentStep) {
             case 1:
-                const canProceedStep1 = this.applicationData.selection_type !== '';
-                console.log('Step 1 validation:', canProceedStep1);
-                return canProceedStep1;
+                return this.quizData.selectionType !== '';
             case 2:
-                if (this.applicationData.selection_type === 'by_car') {
-                    const canProceedStep2Car = this.applicationData.car_make && this.applicationData.season;
-                    console.log('Step 2 (car) validation:', canProceedStep2Car, {
-                        car_make: this.applicationData.car_make,
-                        season: this.applicationData.season
-                    });
-                    return canProceedStep2Car;
-                } else {
-                    const canProceedStep2Size = this.applicationData.tire_width && this.applicationData.tire_profile && 
-                           this.applicationData.tire_radius && this.applicationData.season;
-                    console.log('Step 2 (size) validation:', canProceedStep2Size, {
-                        tire_width: this.applicationData.tire_width,
-                        tire_profile: this.applicationData.tire_profile,
-                        tire_radius: this.applicationData.tire_radius,
-                        season: this.applicationData.season
-                    });
-                    return canProceedStep2Size;
+                if (this.quizData.selectionType === 'by_car') {
+                    const carMake = document.getElementById('carMake').value;
+                    const carModel = document.getElementById('carModel').value;
+                    const season = this.quizData.season;
+                    
+                    if (!carMake || !carModel || !season) {
+                        alert('Пожалуйста, заполните все поля');
+                        return false;
+                    }
+                    
+                    if (season === 'winter' && !this.quizData.winterType) {
+                        alert('Пожалуйста, выберите тип зимних шин');
+                        return false;
+                    }
+                    
+                    this.quizData.carMake = carMake;
+                    this.quizData.carModel = carModel;
+                } else if (this.quizData.selectionType === 'by_size') {
+                    const tireWidth = document.getElementById('tireWidth').value;
+                    const tireProfile = document.getElementById('tireProfile').value;
+                    const tireRadius = document.getElementById('tireRadius').value;
+                    const season = this.quizData.season;
+                    
+                    if (!tireWidth || !tireProfile || !tireRadius || !season) {
+                        alert('Пожалуйста, заполните все поля');
+                        return false;
+                    }
+                    
+                    if (season === 'winter' && !this.quizData.winterType) {
+                        alert('Пожалуйста, выберите тип зимних шин');
+                        return false;
+                    }
+                    
+                    this.quizData.tireWidth = tireWidth;
+                    this.quizData.tireProfile = tireProfile;
+                    this.quizData.tireRadius = tireRadius;
                 }
+                return true;
             case 3:
-                const canProceedStep3 = this.applicationData.budget && this.applicationData.priority;
-                console.log('Step 3 validation:', canProceedStep3, {
-                    budget: this.applicationData.budget,
-                    priority: this.applicationData.priority
-                });
-                return canProceedStep3;
+                if (!this.quizData.budget || !this.quizData.priority) {
+                    alert('Пожалуйста, выберите бюджет и приоритет');
+                    return false;
+                }
+                return true;
+            case 4:
+                const fullName = document.getElementById('fullName').value;
+                const phone = document.getElementById('phone').value;
+                const email = document.getElementById('email').value;
+                
+                if (!fullName || !phone) {
+                    alert('Пожалуйста, заполните ФИО и телефон');
+                    return false;
+                }
+                
+                this.quizData.fullName = fullName;
+                this.quizData.phone = phone;
+                this.quizData.email = email;
+                return true;
             default:
                 return true;
         }
     }
     
-    showCurrentStep() {
-        console.log('Showing current step:', this.currentStep);
-        
-        // Hide all steps
-        document.querySelectorAll('.form-section, .main-card').forEach(step => {
-            step.classList.add('hidden');
-        });
-        
-        // Show current step
-        switch (this.currentStep) {
-            case 1:
-                const step1 = document.getElementById('step1');
-                if (step1) {
-                    step1.classList.remove('hidden');
-                    console.log('Step 1 shown');
-                } else {
-                    console.error('Step 1 element not found!');
-                }
-                break;
-            case 2:
-                if (this.applicationData.selection_type === 'by_car') {
-                    const step2 = document.getElementById('step2');
-                    if (step2) {
-                        step2.classList.remove('hidden');
-                        console.log('Step 2 (car) shown');
-                    } else {
-                        console.error('Step 2 element not found!');
-                    }
-                } else {
-                    const step2Size = document.getElementById('step2Size');
-                    if (step2Size) {
-                        step2Size.classList.remove('hidden');
-                        console.log('Step 2 (size) shown');
-                    } else {
-                        console.error('Step 2Size element not found!');
-                    }
-                }
-                break;
-            case 3:
-                const step3 = document.getElementById('step3');
-                if (step3) {
-                    step3.classList.remove('hidden');
-                    console.log('Step 3 shown');
-                } else {
-                    console.error('Step 3 element not found!');
-                }
-                break;
-            case 4:
-                const step4 = document.getElementById('step4');
-                if (step4) {
-                    step4.classList.remove('hidden');
-                    console.log('Step 4 shown');
-                    this.updateResults();
-                } else {
-                    console.error('Step 4 element not found!');
-                }
-                break;
-        }
-        
-        // Show/hide navigation buttons
-        this.updateNavigationButtons();
-    }
-    
     updateProgress() {
-        const progress = (this.currentStep / this.maxSteps) * 100;
+        const progress = (this.currentStep / this.totalSteps) * 100;
         document.getElementById('progressFill').style.width = progress + '%';
     }
     
     updateStepIndicator() {
-        const dots = document.querySelectorAll('.step-dot');
-        dots.forEach((dot, index) => {
+        document.querySelectorAll('.step-dot').forEach((dot, index) => {
             if (index < this.currentStep) {
                 dot.classList.add('active');
             } else {
@@ -350,128 +297,64 @@ class TireSelection {
         });
     }
     
-    updateNavigationButtons() {
-        const backBtn = document.getElementById('backBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        
-        // Show/hide back button
-        if (this.currentStep === 1) {
-            backBtn.style.display = 'none';
-        } else {
-            backBtn.style.display = 'inline-block';
-        }
-        
-        // Show/hide next button
-        if (this.currentStep === this.maxSteps) {
-            nextBtn.style.display = 'none';
-        } else {
-            nextBtn.style.display = 'inline-block';
-        }
-        
-        // Update next button text
-        if (this.currentStep === this.maxSteps - 1) {
-            nextBtn.textContent = 'Подобрать Nokian';
-        } else {
-            nextBtn.textContent = 'Далее →';
-        }
-    }
     
-    updateResults() {
-        // Show results step
-        document.getElementById('step4').classList.remove('hidden');
-        
-        // Update application summary
-        this.updateApplicationSummary();
-        
-        // Initialize contact buttons
-        this.initializeContactButtons();
-        
-        // Update step indicator
-        this.currentStep = 4;
-        this.updateStepIndicator();
-        
-        // Update navigation buttons
-        this.updateNavigationButtons();
-    }
+    
+
     
     updateApplicationSummary() {
         const summaryContainer = document.getElementById('applicationSummary');
-        
-        if (!summaryContainer) {
-            console.error('Summary container not found!');
-            return;
-        }
-        
-        console.log('Updating application summary with data:', this.applicationData);
-        
         let summaryHTML = '';
         
-        if (this.applicationData.selection_type === 'by_car') {
-            console.log('Car-based selection detected');
-            if (this.applicationData.car_make && this.applicationData.car_model) {
-                summaryHTML += `
-                    <div class="summary-item">
-                        <i class="bi bi-car-front icon"></i>
-                        <span>${this.applicationData.car_make} ${this.applicationData.car_model}</span>
-                    </div>
-                `;
-            }
-        } else {
-            console.log('Size-based selection detected');
-            console.log('Tire data:', {
-                width: this.applicationData.tire_width,
-                profile: this.applicationData.tire_profile,
-                radius: this.applicationData.tire_radius
-            });
-            if (this.applicationData.tire_width && this.applicationData.tire_profile && this.applicationData.tire_radius) {
-                summaryHTML += `
-                    <div class="summary-item">
-                        <i class="bi bi-rulers icon"></i>
-                        <span>${this.applicationData.tire_width}/${this.applicationData.tire_profile}/R${this.applicationData.tire_radius}</span>
-                    </div>
-                `;
-            } else {
-                console.log('Missing tire size data');
-            }
-        }
-        
-        // Season
-        const seasonText = this.getSeasonText(this.applicationData.season);
-        const seasonIcon = this.getSeasonIcon(this.applicationData.season);
-        summaryHTML += `
-            <div class="summary-item">
-                <i class="bi ${seasonIcon} icon"></i>
-                <span>${seasonText}</span>
-            </div>
-        `;
-        
-        // Winter type if applicable
-        if (this.applicationData.season === 'winter' && this.applicationData.winter_type) {
-            const winterTypeText = this.getWinterTypeText(this.applicationData.winter_type);
-            const winterTypeIcon = this.getWinterTypeIcon(this.applicationData.winter_type);
+        // First row: Car/Size and Season
+        if (this.quizData.selectionType === 'by_car') {
             summaryHTML += `
-                <div class="summary-item">
-                    <i class="bi ${winterTypeIcon} icon"></i>
-                    <span>${winterTypeText}</span>
+                <div class="summary-row">
+                    <div class="summary-item-half">
+                        <i class="bi bi-car-front"></i>
+                        <span>Автомобиль: ${this.quizData.carMake} ${this.quizData.carModel}</span>
+                    </div>
+                    <div class="summary-item-half">
+                        <i class="bi bi-calendar"></i>
+                        <span>Сезон: ${this.getSeasonText(this.quizData.season)}</span>
+                    </div>
+                </div>
+            `;
+        } else if (this.quizData.selectionType === 'by_size') {
+            summaryHTML += `
+                <div class="summary-row">
+                    <div class="summary-item-half">
+                        <i class="bi bi-rulers"></i>
+                        <span>Размер шин: ${this.quizData.tireWidth}/${this.quizData.tireProfile} R${this.quizData.tireRadius}</span>
+                    </div>
+                    <div class="summary-item-half">
+                        <i class="bi bi-calendar"></i>
+                        <span>Сезон: ${this.getSeasonText(this.quizData.season)}</span>
+                    </div>
                 </div>
             `;
         }
         
-        // Budget
-        const budgetText = this.getBudgetText(this.applicationData.budget);
-        summaryHTML += `
-            <div class="summary-item">
-                <i class="bi bi-cash-coin icon"></i>
-                <span>${budgetText}</span>
-            </div>
-        `;
+        // Winter type (if applicable) - full width
+        if (this.quizData.season === 'winter' && this.quizData.winterType) {
+            summaryHTML += `
+                <div class="summary-item">
+                    <i class="bi bi-snow"></i>
+                    <span>Тип зимних шин: ${this.getWinterTypeText(this.quizData.winterType)}</span>
+                </div>
+            `;
+        }
         
-        // Priority
-        const priorityText = this.getPriorityText(this.applicationData.priority);
+        // Second row: Budget and Priority
         summaryHTML += `
-            <div class="summary-item">
-                <i class="bi bi-bullseye icon"></i>
-                <span>${priorityText}</span>
+            <div class="summary-row">
+                <div class="summary-item-half">
+                    <i class="bi bi-cash-coin"></i>
+                    <span>Бюджет: ${this.getBudgetText(this.quizData.budget)}</span>
+                </div>
+                <div class="summary-item-half">
+                    <i class="bi bi-bullseye"></i>
+                    <span>Приоритет: ${this.getPriorityText(this.quizData.priority)}</span>
+                </div>
             </div>
         `;
         
@@ -479,301 +362,151 @@ class TireSelection {
     }
     
     getSeasonText(season) {
-        const seasonMap = {
+        const seasons = {
             'summer': 'Летние',
             'winter': 'Зимние',
             'all_season': 'Всесезонные'
         };
-        return seasonMap[season] || season;
+        return seasons[season] || season;
     }
     
-    getSeasonIcon(season) {
-        const iconMap = {
-            'summer': 'bi-sun',
-            'winter': 'bi-snow',
-            'all_season': 'bi-globe'
-        };
-        return iconMap[season] || 'bi-question';
-    }
-    
-    getWinterTypeText(winterType) {
-        const winterTypeMap = {
+    getWinterTypeText(type) {
+        const types = {
             'spikes': 'Шипы',
             'friction': 'Липучка'
         };
-        return winterTypeMap[winterType] || winterType;
-    }
-    
-    getWinterTypeIcon(winterType) {
-        const iconMap = {
-            'spikes': 'bi-lightning',
-            'friction': 'bi-box'
-        };
-        return iconMap[winterType] || 'bi-question';
+        return types[type] || type;
     }
     
     getBudgetText(budget) {
-        const budgetMap = {
+        const budgets = {
             'economy': 'До 15,000₽',
             'optimum': '15-25,000₽',
             'premium': '25,000₽+'
         };
-        return budgetMap[budget] || budget;
+        return budgets[budget] || budget;
     }
     
-    getPriorityText(priority) {
-        const priorityMap = {
-            'safety': 'Безопасность',
-            'comfort': 'Комфорт',
-            'sport': 'Спорт',
-            'economy': 'Экономия'
-        };
-        return priorityMap[priority] || priority;
+         getPriorityText(priority) {
+         const priorities = {
+             'safety': 'Безопасность',
+             'comfort': 'Комфорт',
+             'sport': 'Спорт',
+             'economy': 'Экономия'
+         };
+         return priorities[priority] || priority;
+     }
+     
+     updateCarModels(carMake) {
+         const carModelSelect = document.getElementById('carModel');
+         const models = this.getCarModels(carMake);
+         
+         // Очистить текущие модели
+         carModelSelect.innerHTML = '<option value="">Выберите модель</option>';
+         
+         // Добавить новые модели
+         models.forEach(model => {
+             const option = document.createElement('option');
+             option.value = model.toLowerCase().replace(/\s+/g, '_');
+             option.textContent = model;
+             carModelSelect.appendChild(option);
+         });
+         
+         // Сбросить значение модели
+         carModelSelect.value = '';
+     }
+     
+     getCarModels(carMake) {
+         const carModels = {
+             'toyota': ['Camry', 'Corolla', 'RAV4', 'Highlander', 'Tacoma', 'Tundra', 'Prius', 'Avalon'],
+             'bmw': ['X3', 'X5', '3 Series', '5 Series', '7 Series', 'X1', 'X6', 'M3', 'M5'],
+             'mercedes': ['C-Class', 'E-Class', 'S-Class', 'GLC', 'GLE', 'GLS', 'A-Class', 'CLA'],
+             'audi': ['A3', 'A4', 'A6', 'Q3', 'Q5', 'Q7', 'Q8', 'RS6', 'TT'],
+             'volkswagen': ['Golf', 'Passat', 'Tiguan', 'Atlas', 'Jetta', 'Arteon', 'ID.4', 'Touareg'],
+             'hyundai': ['Elantra', 'Sonata', 'Tucson', 'Santa Fe', 'Palisade', 'Accent', 'Veloster', 'Kona'],
+             'kia': ['Forte', 'K5', 'Sportage', 'Telluride', 'Sorento', 'Rio', 'Stinger', 'Soul'],
+             'lada': ['Granta', 'Vesta', 'Niva', 'Largus', 'XRAY', '4x4', 'Priora', 'Kalina'],
+             'renault': ['Clio', 'Megane', 'Captur', 'Kadjar', 'Koleos', 'Duster', 'Logan', 'Sandero'],
+             'ford': ['Focus', 'Fusion', 'Escape', 'Explorer', 'F-150', 'Mustang', 'Edge', 'Expedition'],
+             'other': ['Укажите модель']
+         };
+         
+         return carModels[carMake] || ['Укажите модель'];
+     }
+    
+    handleContactMethod(method) {
+        const message = this.createContactMessage();
+        
+        if (method === 'whatsapp') {
+            const whatsappUrl = `https://wa.me/79001234567?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        } else if (method === 'telegram') {
+            const telegramUrl = `https://t.me/username?text=${encodeURIComponent(message)}`;
+            window.open(telegramUrl, '_blank');
+        }
     }
     
-    submitApplication(contactType = null) {
-        // Validate required fields
-        const fullName = document.getElementById('fullName').value.trim();
-        const phone = document.getElementById('phone').value.trim();
+    createContactMessage() {
+        let message = `Здравствуйте! Хочу оставить заявку на подбор шин.\n\n`;
         
-        if (!fullName) {
-            alert('Пожалуйста, введите ваше ФИО');
-            return;
+        if (this.quizData.selectionType === 'by_car') {
+            message += `Автомобиль: ${this.quizData.carMake} ${this.quizData.carModel}\n`;
         }
         
-        if (!phone) {
-            alert('Пожалуйста, введите ваш телефон');
-            return;
+        message += `Сезон: ${this.getSeasonText(this.quizData.season)}\n`;
+        
+        if (this.quizData.season === 'winter' && this.quizData.winterType) {
+            message += `Тип зимних шин: ${this.getWinterTypeText(this.quizData.winterType)}\n`;
         }
         
-        // Add contact type if provided
-        if (contactType) {
-            this.applicationData.contact_type = contactType;
+        message += `Бюджет: ${this.getBudgetText(this.quizData.budget)}\n`;
+        message += `Приоритет: ${this.getPriorityText(this.quizData.priority)}\n\n`;
+        message += `Контактные данные:\n`;
+        message += `ФИО: ${this.quizData.fullName}\n`;
+        message += `Телефон: ${this.quizData.phone}\n`;
+        
+        if (this.quizData.email) {
+            message += `Email: ${this.quizData.email}\n`;
         }
-        
-        // Update application data
-        this.applicationData.full_name = fullName;
-        this.applicationData.phone = phone;
-        this.applicationData.email = document.getElementById('email').value.trim();
-        
-        // Get application summary
-        const summary = this.getApplicationSummary();
-        
-        // Create message text
-        const message = this.createMessageText(summary);
-        
-        // Save application to database first
-        this.saveApplicationToDatabase();
-        
-        // Open WhatsApp or Telegram with pre-filled message
-        if (contactType === 'whatsapp') {
-            this.openWhatsApp(message);
-        } else if (contactType === 'telegram') {
-            this.openTelegram(message);
-        } else {
-            // Show success alert for other cases
-            alert('Заявка успешно отправлена!');
-            window.location.href = '/';
-        }
-    }
-    
-    getApplicationSummary() {
-        const summary = {};
-        
-        // Get car information
-        if (this.applicationData.car_make && this.applicationData.car_model) {
-            summary.car = `${this.applicationData.car_make} ${this.applicationData.car_model}`;
-        }
-        
-        // Get season information
-        if (this.applicationData.season) {
-            const seasonMap = {
-                'summer': 'Летние',
-                'winter': 'Зимние',
-                'all_season': 'Всесезонные'
-            };
-            summary.season = seasonMap[this.applicationData.season] || this.applicationData.season;
-        }
-        
-        // Get budget information
-        if (this.applicationData.budget) {
-            const budgetMap = {
-                'budget_10_15': '10,000-15,000 ₽',
-                'budget_15_25': '15,000-25,000 ₽',
-                'budget_25_35': '25,000-35,000 ₽',
-                'budget_35_50': '35,000-50,000 ₽',
-                'budget_50_plus': '50,000+ ₽'
-            };
-            summary.budget = budgetMap[this.applicationData.budget] || this.applicationData.budget;
-        }
-        
-        // Get priority information
-        if (this.applicationData.priority) {
-            const priorityMap = {
-                'safety': 'Безопасность',
-                'comfort': 'Комфорт',
-                'sport': 'Спорт',
-                'economy': 'Экономия'
-            };
-            summary.priority = priorityMap[this.applicationData.priority] || this.applicationData.priority;
-        }
-        
-        return summary;
-    }
-    
-    createMessageText(summary) {
-        let message = `Здравствуйте! Я хочу заказать шины.\n\n`;
-        message += `📋 Данные заявки:\n`;
-        
-        // Add car information
-        if (summary.car) {
-            message += `🚗 Автомобиль: ${summary.car}\n`;
-        }
-        
-        // Add season information
-        if (summary.season) {
-            message += `🌤️ Сезон: ${summary.season}\n`;
-        }
-        
-        // Add budget information
-        if (summary.budget) {
-            message += `💰 Бюджет: ${summary.budget}\n`;
-        }
-        
-        // Add priority information
-        if (summary.priority) {
-            message += `🎯 Приоритет: ${summary.priority}\n`;
-        }
-        
-        // Add contact information
-        message += `\n👤 Контактные данные:\n`;
-        message += `ФИО: ${this.applicationData.full_name}\n`;
-        message += `Телефон: ${this.applicationData.phone}\n`;
-        
-        if (this.applicationData.email) {
-            message += `Email: ${this.applicationData.email}\n`;
-        }
-        
-        message += `\nПожалуйста, свяжитесь со мной для уточнения деталей заказа.`;
         
         return message;
     }
     
-    openWhatsApp(message) {
-        // Replace with your actual WhatsApp number (international format without +)
-        const phoneNumber = '998914180518'; // Example: replace with your actual number
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-        window.open(whatsappUrl, '_blank');
-    }
-    
-    openTelegram(message) {
-        // Replace with your actual Telegram username (without @)
-        const username = 'full_stack_dev_111'; // Example: replace with your actual username
-        const encodedMessage = encodeURIComponent(message);
-        const telegramUrl = `https://t.me/${username}?text=${encodedMessage}`;
-        window.open(telegramUrl, '_blank');
-    }
-    
-    backToWebsite() {
-        // Only save to database if we have contact information
-        if (this.applicationData.full_name && this.applicationData.phone) {
-            this.saveApplicationToDatabase();
-        }
-        
-        // Then redirect to main page
-        window.location.href = '/';
-    }
+
     
     saveApplicationToDatabase() {
-        // Prepare data for database
-        const applicationData = {
-            selection_type: this.applicationData.selection_type,
-            car_make: this.applicationData.car_make || '',
-            car_model: this.applicationData.car_model || '',
-            tire_width: this.applicationData.tire_width || null,
-            tire_profile: this.applicationData.tire_profile || null,
-            tire_radius: this.applicationData.tire_radius || null,
-            season: this.applicationData.season || '',
-            winter_type: this.applicationData.winter_type || '',
-            budget: this.applicationData.budget || '',
-            priority: this.applicationData.priority || '',
-            full_name: this.applicationData.full_name || '',
-            phone: this.applicationData.phone || '',
-            email: this.applicationData.email || ''
-        };
+        // Здесь будет логика сохранения заявки в базу данных
+        console.log('Saving application:', this.quizData);
         
-        // Send AJAX request to save application
-        fetch('/save-application/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': this.getCSRFToken()
-            },
-            body: JSON.stringify(applicationData)
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Application saved successfully:', data.message);
-            } else {
-                console.error('Error saving application:', data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error saving application:', error);
-        });
+        // Показать сообщение об успехе
+        alert('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+        
+        // Сбросить форму
+        this.resetForm();
     }
     
-    getCSRFToken() {
-        // Get CSRF token from cookie
-        const name = 'csrftoken';
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
-    
-    resetToFirstStep() {
+    resetForm() {
         this.currentStep = 1;
-        this.applicationData = {
-            selection_type: 'by_car',
-            car_make: '',
-            car_model: '',
-            tire_width: '',
-            tire_profile: '',
-            tire_radius: '',
+        this.quizData = {
+            selectionType: 'by_car',
+            carMake: '',
+            carModel: '',
             season: '',
-            winter_type: '',
+            winterType: '',
             budget: '',
             priority: '',
-            full_name: '',
+            fullName: '',
             phone: '',
             email: ''
         };
         
-        // Reset UI
-        this.showCurrentStep();
-        this.updateProgress();
-        this.updateStepIndicator();
-        this.updateNavigationButtons();
+                 this.showStep(1);
+         this.updateProgress();
+         this.updateStepIndicator();
         
-        // Reset form selections
-        document.querySelectorAll('.option-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-        
-        // Reset form inputs
+        // Сбросить все поля формы
         document.getElementById('carMake').value = '';
-        document.getElementById('carModel').value = '';
+        document.getElementById('carModel').innerHTML = '<option value="">Сначала выберите марку</option>';
         document.getElementById('tireWidth').value = '';
         document.getElementById('tireProfile').value = '';
         document.getElementById('tireRadius').value = '';
@@ -781,23 +514,17 @@ class TireSelection {
         document.getElementById('phone').value = '';
         document.getElementById('email').value = '';
         
-        // Hide winter type selections
+        // Сбросить все выбранные карточки
+        document.querySelectorAll('.selection-card').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
         document.getElementById('winterTypeSelection').classList.add('hidden');
-        document.getElementById('winterTypeSelectionSize').classList.add('hidden');
-    }
-
-    // Initialize contact method buttons
-    initializeContactButtons() {
-        document.querySelectorAll('.contact-method-btn').forEach(button => {
-            button.addEventListener('click', (e) => {
-                const method = e.currentTarget.dataset.method;
-                this.submitApplication(method);
-            });
-        });
+        
+        // Установить значения по умолчанию
+        document.querySelector('.selection-card[data-type="by_car"]').classList.add('active');
     }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new TireSelection();
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    window.tireSelection = new TireSelection();
 });

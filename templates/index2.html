@@ -1,0 +1,1765 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Главная - Nokian Tyres</title>
+  <meta name="description" content="Nokian Tyres - премиальные шины для тяжелой техники">
+  <meta name="keywords" content="Nokian Tyres, шины, тяжелая техника, строительство, горнодобывающая промышленность">
+
+  <!-- Favicons -->
+  <link href="{% static 'file/assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'file/assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'file/assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'file/assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'file/assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'file/assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+  <link href="{% static 'file/assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'file/assets/css/main.css' %}" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Valera
+  * Template URL: https://bootstrapmade.com/valera-free-bootstrap-theme/
+  * Updated: Aug 07 2024 with Bootstrap v5.3.3
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  <style>
+    /* FAQ Styles */
+    .faq-simple {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .faq-block {
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e9ecef;
+      transition: all 0.3s ease;
+    }
+    
+    .faq-block:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .faq-question {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #ffffff;
+      user-select: none;
+    }
+    
+    .faq-question:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .faq-num {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #51b848;
+      margin-right: 15px;
+      min-width: 30px;
+    }
+    
+    .faq-text {
+      flex: 1;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin-right: 15px;
+    }
+    
+    .faq-btn {
+      color: #51b848;
+      font-size: 1.5rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .faq-answer {
+      padding: 0;
+      color: #666;
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+      opacity: 0;
+    }
+    
+    .faq-answer p {
+      margin: 0;
+      font-size: 1rem;
+    }
+    
+    .faq-block.active .faq-answer {
+      max-height: 200px;
+      padding: 20px 20px 20px 65px;
+      opacity: 1;
+    }
+    
+    .faq-block.active .faq-btn {
+      transform: rotate(45deg);
+    }
+    
+    /* Responsive FAQ */
+    @media (max-width: 768px) {
+      .faq-question {
+        padding: 15px;
+      }
+      
+      .faq-text {
+        font-size: 1rem;
+      }
+      
+      .faq-answer {
+        padding: 0;
+      }
+      
+      .faq-block.active .faq-answer {
+        padding: 15px 15px 15px 50px;
+      }
+    }
+    
+    .tire-selection-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 15px;
+        max-height: 100%;
+        overflow-y: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .quiz-step {
+        flex-shrink: 0;
+    }
+    
+    .main-card {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .selection-card {
+        background: white;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 12px;
+        box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        height: auto;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .selection-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    }
+    
+    .selection-card.active {
+        border-color: #51b848;
+        background: linear-gradient(135deg, #fff 0%, #f8fff8 100%);
+        box-shadow: 0 6px 25px rgba(81, 184, 72, 0.25);
+    }
+    
+    .selection-card .icon {
+        font-size: 2rem;
+        margin-right: 15px;
+        color: #6c757d;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+    
+    .selection-card.active .icon {
+        color: #51b848;
+    }
+    
+    .selection-card .content {
+        flex: 1;
+    }
+    
+    .selection-card h3 {
+        color: #000000;
+        margin-bottom: 4px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin: 0 0 4px 0;
+     }
+    
+    .selection-card p {
+        color: #6c757d;
+        margin: 0;
+        font-size: 0.85rem;
+    }
+    
+         .option-card {
+         background: white;
+         border-radius: 10px;
+         padding: 12px 16px;
+         margin-bottom: 8px;
+         box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+         cursor: pointer;
+         transition: all 0.3s ease;
+         border: 2px solid transparent;
+         height: auto;
+         display: flex;
+         align-items: center;
+         width: 100%;
+     }
+     
+     .option-card:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+     }
+     
+     .option-card.selected {
+         border-color: #51b848;
+         background: linear-gradient(135deg, #fff 0%, #f8fff8 100%);
+         box-shadow: 0 5px 20px rgba(81, 184, 72, 0.25);
+     }
+     
+     .option-card .icon {
+         font-size: 1.5rem;
+         margin-right: 12px;
+         color: #6c757d;
+         display: inline-block;
+         flex-shrink: 0;
+     }
+     
+     .option-card.selected .icon {
+         color: #51b848;
+     }
+     
+     .option-card .content {
+         flex: 1;
+         display: flex;
+         flex-direction: column;
+     }
+     
+     .option-card h5 {
+         color: #000000;
+         margin-bottom: 2px;
+         font-weight: 600;
+         font-size: 1rem;
+         margin: 0;
+     }
+     
+     .option-card small {
+         color: #6c757d;
+         font-size: 0.8rem;
+         margin: 0;
+     }
+    
+        .contact-method-card {
+        background: white;
+        border-radius: 12px;
+        padding: 12px 16px;
+        margin-bottom: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+        height: auto;
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .contact-method-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    }
+    
+    .contact-method-card .icon {
+        font-size: 1.5rem;
+        margin-right: 12px;
+        color: #6c757d;
+        display: inline-block;
+        flex-shrink: 0;
+    }
+    
+    .contact-method-card .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+         .contact-method-card h5 {
+        color: #000000;
+        margin-bottom: 2px;
+        font-weight: 600;
+        font-size: 1rem;
+        margin: 0 0 2px 0;
+    }
+    
+    .contact-method-card small {
+        color: #6c757d;
+        font-size: 0.8rem;
+        margin: 0;
+    }
+    
+    .hidden {
+        display: none !important;
+    }
+    
+         .form-control {
+         border: 2px solid #e9ecef;
+         border-radius: 8px;
+         padding: 14px 16px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         background-color: white;
+     }
+     
+     .form-control:focus {
+         border-color: #51b848;
+         box-shadow: 0 0 0 0.2rem rgba(81, 184, 72, 0.2);
+     }
+     
+     .form-select {
+         border: 2px solid #e9ecef;
+         border-radius: 8px;
+         padding: 14px 16px;
+         font-size: 1rem;
+         transition: all 0.3s ease;
+         background-color: white;
+         cursor: pointer;
+     }
+     
+     .form-select:focus {
+         border-color: #51b848;
+         box-shadow: 0 0 0 0.2rem rgba(81, 184, 72, 0.2);
+     }
+    
+    .form-select option {
+        padding: 8px;
+        font-size: 1rem;
+    }
+    
+         .btn-primary {
+         background: linear-gradient(135deg, #51b848 0%, #45a03a 100%);
+         border: none;
+         border-radius: 12px;
+         padding: 16px 40px;
+         font-size: 1.2rem;
+         font-weight: 600;
+         transition: all 0.3s ease;
+         color: white;
+         box-shadow: 0 4px 15px rgba(81, 184, 72, 0.3);
+     }
+     
+     .btn-primary:hover {
+         background: linear-gradient(135deg, #45a03a 0%, #3d8f32 100%);
+         transform: translateY(-3px);
+         box-shadow: 0 8px 25px rgba(81, 184, 72, 0.4);
+         color: white;
+     }
+     
+          .btn-lg {
+         padding: 18px 45px;
+         font-size: 1.3rem;
+     }
+     
+     .btn-secondary {
+         background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+         border: none;
+         border-radius: 12px;
+         padding: 14px 30px;
+         font-size: 1.1rem;
+         font-weight: 600;
+         transition: all 0.3s ease;
+         color: white;
+         box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+     }
+     
+     .btn-secondary:hover {
+         background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+         transform: translateY(-2px);
+         box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+         color: white;
+     }
+     
+     .hero-card {
+         background: rgba(255, 255, 255, 0.95);
+         border-radius: 20px;
+         padding: 30px;
+         box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+         backdrop-filter: blur(10px);
+     }
+     
+     .text-muted {
+         color: #6c757d !important;
+         font-size: 1rem;
+         margin-bottom: 0;
+     }
+     
+     .alert-info {
+         background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+         border: 2px solid #17a2b8;
+         border-radius: 15px;
+         color: #0c5460;
+         padding: 20px;
+     }
+     
+     .alert-info h5 {
+         color: #0c5460;
+         font-weight: 600;
+         margin-bottom: 10px;
+     }
+     
+     .alert-info p {
+         font-size: 1rem;
+         font-weight: 500;
+     }
+    
+    .selection-card.active h3 {
+        color: #51b848;
+    }
+    
+         .selection-card p {
+         color: #000000;
+         margin: 0;
+         font-size: 0.95rem;
+     }
+    
+    .btn-primary-custom {
+        background: #51b848;
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary-custom:hover {
+        background: #45a038;
+        transform: translateY(-2px);
+        color: white;
+        box-shadow: 0 6px 20px rgba(81, 184, 72, 0.3);
+    }
+    
+         .hidden {
+         display: none !important;
+     }
+     
+     .text-muted {
+         color: #6c757d !important;
+         font-size: 1rem;
+         margin-bottom: 0;
+     }
+     
+     .alert-info {
+         background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+         border: 2px solid #17a2b8;
+         border-radius: 15px;
+         color: #0c5460;
+     }
+     
+     .alert-info h5 {
+         color: #0c5460;
+         font-weight: 600;
+         margin-bottom: 10px;
+     }
+     
+     .alert-info p {
+         font-size: 1rem;
+         font-weight: 500;
+     }
+     
+     .form-label {
+         display: block;
+         margin-bottom: 10px;
+         font-weight: 600;
+         color: #343a40;
+         font-size: 1rem;
+     }
+     
+          .form-label.required::after {
+         content: " *";
+         color: #dc3545;
+         font-weight: 700;
+     }
+     
+     /* Дополнительные стили для улучшения дизайна */
+     .main-card {
+         position: relative;
+         overflow: hidden;
+     }
+     
+     .main-card::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         right: 0;
+         height: 4px;
+         background: linear-gradient(90deg, #51b848 0%, #45a03a 50%, #51b848 100%);
+         border-radius: 15px 15px 0 0;
+     }
+     
+     .option-card {
+         position: relative;
+         overflow: hidden;
+     }
+     
+     .option-card::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: -100%;
+         width: 100%;
+         height: 100%;
+         background: linear-gradient(90deg, transparent, rgba(81, 184, 72, 0.1), transparent);
+         transition: left 0.5s ease;
+     }
+     
+     .option-card:hover::before {
+         left: 100%;
+     }
+     
+     .form-select {
+         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+         background-repeat: no-repeat;
+         background-position: right 0.75rem center;
+         background-size: 16px 12px;
+     }
+     
+     .form-select:focus {
+         background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2351b848' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e");
+     }
+</style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+      <a href="#" class="logo d-flex align-items-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="#hero" class="active">Главная</a></li>
+          <li><a href="#about">О нас</a></li>
+          <li><a href="#services">Услуги</a></li>
+          <li><a href="#portfolio">Портфолио</a></li>
+          <li><a href="#team">Команда</a></li>
+          <li><a href="#contact">Контакты</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="{% static 'file/assets/img/hero.webp' %}" alt="" data-aos="fade-in">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row align-items-center">
+          <!-- Left side - Text content (40%) -->
+          <div class="col-lg-5">
+            <div class="hero-content">
+              <h2 style="color: #ffffff; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">NOKIAN HEAVY TYRES -<br>ПРЕМИАЛЬНЫЕ ШИНЫ<br>ДЛЯ ТЯЖЕЛОЙ<br>ТЕХНИКИ</h2>
+              <p style="color: #f8f9fa; font-size: 1.2rem; margin-bottom: 30px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Профессиональные шины для строительства, горнодобывающей промышленности и промышленного применения</p>
+            </div>
+          </div>
+          
+          <!-- Right side - White card (60%) -->
+          <div class="col-lg-7">
+            <div class="hero-card">
+                <div class="tire-selection-container">
+                    
+                                         <!-- Step 1: Selection Type -->
+                     <div class="main-card quiz-step" id="step1">
+                         <div class="text-center mb-4">
+                             <h3 style="color: #343a40; font-size: 1.5rem; margin-bottom: 12px;">Способ подбора шин Nokian</h3>
+                             <p class="text-muted" style="color: #6c757d; font-size: 1.1rem;">Выберите удобный способ для поиска идеальных шин Nokian</p>
+                         </div>
+                         <div class="row g-4">
+                                                         <div class="col-12 col-md-6">
+                                 <div class="selection-card" data-type="by_size">
+                                     <i class="bi bi-rulers icon"></i>
+                                     <div class="content">
+                                         <h3>Подбор по размерам</h3>
+                                         <p>Знаю размер шин</p>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-12 col-md-6">
+                                 <div class="selection-card active" data-type="by_car">
+                                     <i class="bi bi-car-front icon"></i>
+                                     <div class="content">
+                                         <h3>Подбор по авто</h3>
+                                         <p>Укажу марку и модель</p>
+                                     </div>
+                                 </div>
+                             </div>
+                        </div>
+                    </div>
+
+                                                              <!-- Step 2: Car Selection -->
+                     <div class="main-card quiz-step hidden" id="step2">
+                         <div class="text-center mb-4">
+                             <h3 style="color: #343a40; font-size: 1.5rem; margin-bottom: 12px;">Ваш автомобиль</h3>
+                             <p class="text-muted" style="color: #6c757d; font-size: 1.1rem;">Укажите марку и модель для точного подбора</p>
+                         </div>
+                         <div class="row g-4">
+                             <div class="col-md-6">
+                                 <label for="carMake" class="form-label">Марка автомобиля *</label>
+                                 <select class="form-select" id="carMake" required>
+                                     <option value="">Выберите марку</option>
+                                     <option value="toyota">Toyota</option>
+                                     <option value="bmw">BMW</option>
+                                     <option value="mercedes">Mercedes</option>
+                                     <option value="audi">Audi</option>
+                                     <option value="volkswagen">Volkswagen</option>
+                                     <option value="hyundai">Hyundai</option>
+                                     <option value="kia">Kia</option>
+                                     <option value="lada">Лада</option>
+                                     <option value="renault">Renault</option>
+                                     <option value="ford">Ford</option>
+                                     <option value="other">Другая</option>
+                                 </select>
+                             </div>
+                             <div class="col-md-6">
+                                 <label for="carModel" class="form-label">Модель автомобиля *</label>
+                                 <select class="form-select" id="carModel" required>
+                                     <option value="">Сначала выберите марку</option>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="text-center mt-5">
+                             <h4 style="color: #343a40; font-size: 1.3rem; margin-bottom: 20px;">Сезон использования</h4>
+                         </div>
+                         <div class="row g-4 mt-2">
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="summer">
+                                     <i class="bi bi-sun icon"></i>
+                                     <div class="content">
+                                         <h5>Летние</h5>
+                                         <small>+5°С и выше</small>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="winter">
+                                     <i class="bi bi-snow icon"></i>
+                                     <div class="content">
+                                         <h5>Зимние</h5>
+                                         <small>До +7°С</small>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="all_season">
+                                     <i class="bi bi-calendar icon"></i>
+                                     <div class="content">
+                                         <h5>Всесезонные</h5>
+                                         <small>Круглый год</small>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                        <div id="winterTypeSelection" class="hidden mt-4">
+                            <div class="text-center">
+                                <h4>Тип зимних шин</h4>
+                            </div>
+                            <div class="row g-3 mt-2">
+                                <div class="col-md-6">
+                                    <div class="option-card" data-winter-type="spikes">
+                                        <i class="bi bi-asterisk icon"></i>
+                                        <div class="content">
+                                            <h5>Шипы</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="option-card" data-winter-type="friction">
+                                        <i class="bi bi-droplet icon"></i>
+                                        <div class="content">
+                                            <h5>Липучка</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                                                              <!-- Step 2: Size Selection -->
+                     <div class="main-card quiz-step hidden" id="step2Size">
+                         <div class="text-center mb-4">
+                             <h3 style="color: #343a40; font-size: 1.5rem; margin-bottom: 12px;">Размер шин</h3>
+                             <p class="text-muted" style="color: #6c757d; font-size: 1.1rem;">Найдите на боковине: 205/55 R16</p>
+                         </div>
+                         <div class="row g-4">
+                             <div class="col-md-4">
+                                 <label for="tireWidth" class="form-label">Ширина (мм) *</label>
+                                 <select class="form-select" id="tireWidth" required>
+                                     <option value="">---</option>
+                                     <option value="175">175</option>
+                                     <option value="185">185</option>
+                                     <option value="195">195</option>
+                                     <option value="205">205</option>
+                                     <option value="215">215</option>
+                                     <option value="225">225</option>
+                                     <option value="235">235</option>
+                                     <option value="245">245</option>
+                                 </select>
+                             </div>
+                             <div class="col-md-4">
+                                 <label for="tireProfile" class="form-label">Профиль (%) *</label>
+                                 <select class="form-select" id="tireProfile" required>
+                                     <option value="">---</option>
+                                     <option value="40">40</option>
+                                     <option value="45">45</option>
+                                     <option value="50">50</option>
+                                     <option value="55">55</option>
+                                     <option value="60">60</option>
+                                     <option value="65">65</option>
+                                     <option value="70">70</option>
+                                 </select>
+                             </div>
+                             <div class="col-md-4">
+                                 <label for="tireRadius" class="form-label">Радиус (дюймы) *</label>
+                                 <select class="form-select" id="tireRadius" required>
+                                     <option value="">R--</option>
+                                     <option value="14">R14</option>
+                                     <option value="15">R15</option>
+                                     <option value="16">R16</option>
+                                     <option value="17">R17</option>
+                                     <option value="18">R18</option>
+                                     <option value="19">R19</option>
+                                     <option value="20">R20</option>
+                                 </select>
+                             </div>
+                         </div>
+                         <div class="text-center mt-5">
+                             <h4 style="color: #343a40; font-size: 1.3rem; margin-bottom: 20px;">Сезон использования</h4>
+                         </div>
+                         <div class="row g-4 mt-2">
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="summer">
+                                     <i class="bi bi-sun icon"></i>
+                                     <div class="content">
+                                         <h5>Летние</h5>
+                                         <small>+5°С и выше</small>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="winter">
+                                     <i class="bi bi-snow icon"></i>
+                                     <div class="content">
+                                         <h5>Зимние</h5>
+                                         <small>До +7°С</small>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-4">
+                                 <div class="option-card" data-season="all_season">
+                                     <i class="bi bi-calendar icon"></i>
+                                     <div class="content">
+                                         <h5>Всесезонные</h5>
+                                         <small>Круглый год</small>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                         <div id="winterTypeSelectionSize" class="hidden mt-4">
+                             <div class="text-center">
+                                 <h4 style="color: #343a40; font-size: 1.2rem; margin-bottom: 20px;">❄️ Тип зимних шин</h4>
+                             </div>
+                             <div class="row g-4 mt-2">
+                                 <div class="col-md-6">
+                                     <div class="option-card" data-winter-type="spikes">
+                                         <i class="bi bi-asterisk icon"></i>
+                                         <div class="content">
+                                             <h5>Шипы</h5>
+                                             <small>Максимальное сцепление</small>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="col-md-6">
+                                     <div class="option-card" data-winter-type="friction">
+                                         <i class="bi bi-droplet icon"></i>
+                                         <div class="content">
+                                             <h5>Липучка</h5>
+                                             <small>Тихая езда</small>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                                         <!-- Step 3: Budget and Priority -->
+                     <div class="main-card quiz-step hidden" id="step3">
+                         <div class="text-center mb-4">
+                             <h3 style="color: #343a40; font-size: 1.5rem; margin-bottom: 12px;">Бюджет на комплект</h3>
+                             <p class="text-muted" style="color: #6c757d; font-size: 1.1rem;">Выберите подходящий ценовой диапазон</p>
+                         </div>
+                         <div class="row g-4">
+                             <div class="col-md-6">
+                                 <h4 style="color: #343a40; font-size: 1.2rem; margin-bottom: 20px;">Бюджет</h4>
+                                 <div class="row g-3">
+                                     <div class="col-12">
+                                         <div class="option-card" data-budget="economy">
+                                             <i class="bi bi-currency-dollar icon"></i>
+                                             <div class="content">
+                                                 <h5>До 15,000₽</h5>
+                                                 <small>Экономичный вариант</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12">
+                                         <div class="option-card" data-budget="optimum">
+                                             <i class="bi bi-currency-exchange icon"></i>
+                                             <div class="content">
+                                                 <h5>15-25,000₽</h5>
+                                                 <small>Оптимальное соотношение</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12">
+                                         <div class="option-card" data-budget="premium">
+                                             <i class="bi bi-gem icon"></i>
+                                             <div class="content">
+                                                 <h5>25,000₽+</h5>
+                                                 <small>Премиум качество</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             <div class="col-md-6">
+                                 <h4 style="color: #343a40; font-size: 1.2rem; margin-bottom: 20px;">Приоритет</h4>
+                                 <div class="row g-3">
+                                     <div class="col-12">
+                                         <div class="option-card" data-priority="safety">
+                                             <i class="bi bi-shield-check icon"></i>
+                                             <div class="content">
+                                                 <h5>Безопасность</h5>
+                                                 <small>Максимальная защита</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12">
+                                         <div class="option-card" data-priority="comfort">
+                                             <i class="bi bi-volume-mute icon"></i>
+                                             <div class="content">
+                                                 <h5>Комфорт</h5>
+                                                 <small>Тихая езда</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12">
+                                         <div class="option-card" data-priority="sport">
+                                             <i class="bi bi-speedometer2 icon"></i>
+                                             <div class="content">
+                                                 <h5>Спорт</h5>
+                                                 <small>Отличное сцепление</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-12">
+                                         <div class="option-card" data-priority="economy">
+                                             <i class="bi bi-clock-history icon"></i>
+                                             <div class="content">
+                                                 <h5>Экономия</h5>
+                                                 <small>Долговечность</small>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+                                         <!-- Step 4: Contact Information -->
+                     <div class="main-card quiz-step hidden" id="step4">
+                         <div class="text-center mb-4">
+                             <h3 style="color: #343a40; font-size: 1.5rem; margin-bottom: 12px;">Ваша заявка</h3>
+                         </div>
+                         <div class="row g-4">
+                              <div class="col-md-12">
+                                  <label for="fullName" class="form-label">ФИО *</label>
+                                  <input type="text" id="fullName" class="form-control" placeholder="Введите ваше полное имя" required>
+                              </div>
+                              <div class="col-md-6">
+                                  <label for="phone" class="form-label">Телефон *</label>
+                                  <input type="tel" id="phone" class="form-control" placeholder="+7 (___) ___-__-__" required>
+                              </div>
+                              <div class="col-md-6">
+                                  <label for="email" class="form-label">Email</label>
+                                  <input type="email" id="email" class="form-control" placeholder="your@email.com">
+                              </div>
+                          </div>
+                                                   <div class="row g-4 mt-2">
+                              <div class="col-md-6">
+                                  <div class="contact-method-card" data-method="whatsapp">
+                                      <i class="bi bi-whatsapp icon"></i>
+                                      <div class="content">
+                                          <h5>WhatsApp</h5>
+                                          <small>Быстрый ответ</small>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-md-6">
+                                  <div class="contact-method-card" data-method="telegram">
+                                      <i class="bi bi-telegram icon"></i>
+                                      <div class="content">
+                                          <h5>Telegram</h5>
+                                          <small>Удобно и быстро</small>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                         <div class="text-center mt-5">
+                             <div class="alert alert-info" role="alert">
+                                 <h5 style="color: #0c5460; font-weight: 600; margin-bottom: 10px;">🚀 Получите персональные предложения от эксперта:</h5>
+                                 <p class="mb-0" style="color: #0c5460; font-weight: 500;">⏰ Ответ через 15 минут • 🎁 Скидка 10% при заказе сегодня!</p>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>О нас</h2>
+          <p>Мы предоставляем высококачественные решения для ваших потребностей в шинах</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container">
+  
+          <div class="row gy-5">
+  
+            <div class="content col-xl-5 d-flex flex-column" data-aos="fade-up" data-aos-delay="100">
+              <h3>Мы обеспечиваем качество и надежность</h3>
+              <p>
+                Nokian Tyres - ведущий производитель шин для тяжелой техники с многолетним опытом в создании инновационных решений для строительной и горнодобывающей промышленности
+              </p>
+              <a href="#" class="about-btn align-self-center align-self-xl-start"><span>О нас</span> <i class="bi bi-chevron-right"></i></a>
+            </div>
+  
+            <div class="col-xl-7" data-aos="fade-up" data-aos-delay="200">
+              <div class="row gy-4">
+  
+                <div class="col-md-6 icon-box position-relative">
+                  <i class="bi bi-briefcase"></i>
+                  <h4><a href="#hero" class="stretched-link">Профессиональные решения</a></h4>
+                  <p>Мы предлагаем комплексные решения для всех типов тяжелой техники и условий эксплуатации</p>
+                </div><!-- Icon-Box -->
+  
+                <div class="col-md-6 icon-box position-relative">
+                  <i class="bi bi-gem"></i>
+                  <h4><a href="#hero" class="stretched-link">Высокое качество</a></h4>
+                  <p>Наши шины производятся с использованием передовых технологий и материалов высочайшего качества</p>
+                </div><!-- Icon-Box -->
+  
+                <div class="col-md-6 icon-box position-relative">
+                  <i class="bi bi-broadcast"></i>
+                  <h4><a href="#hero" class="stretched-link">Техническая поддержка</a></h4>
+                  <p>Наша команда экспертов всегда готова помочь с выбором и техническими вопросами</p>
+                </div><!-- Icon-Box -->
+  
+                <div class="col-md-6 icon-box position-relative">
+                  <i class="bi bi-easel"></i>
+                  <h4><a href="#hero" class="stretched-link">Инновации</a></h4>
+                  <p>Постоянно развиваем новые технологии для повышения производительности и долговечности</p>
+                </div><!-- Icon-Box -->
+  
+              </div>
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </section><!-- /About Section -->
+<!-- Отзывы клиентов Section -->
+<section id="testimonials" class="testimonials-new section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Отзывы клиентов</h2>
+      <p>Что говорят о нас наши довольные клиенты</p>
+    </div><!-- End Section Title -->
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row gy-4">
+        
+        <!-- Testimonial Card 1 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Отличное качество шин Nokian! Используем их на нашей строительной технике уже 3 года. Проходимость и долговечность на высоте.</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Алексей Петров</h4>
+                <span>Главный механик, ООО "СтройТех"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial Card 2 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Шины Nokian для горнодобывающей техники превзошли все ожидания. Работаем в сложных условиях карьера, но шины показывают отличную износостойкость.</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Елена Соколова</h4>
+                <span>Технический директор, "КарьерСтрой"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial Card 3 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Закупаем шины Nokian для всего автопарка сельхозтехники. Качество стабильно высокое, срок службы превышает заявленный производителем.</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Дмитрий Козлов</h4>
+                <span>Директор, "АгроТехСервис"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial Card 4 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Профессиональный подход к каждому клиенту. Помогли подобрать оптимальные шины для нашего логистического центра. Экономия составила 25%.</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Мария Волкова</h4>
+                <span>Менеджер по закупкам, "ЛогистикГрупп"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial Card 5 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Используем шины Nokian на нефтедобывающем оборудовании. Работаем в экстремальных условиях, но шины справляются отлично.</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Сергей Морозов</h4>
+                <span>Начальник отдела снабжения, "НефтеГазСтрой"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial Card 6 -->
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <div class="rating">
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+                <i class="bi bi-star-fill" style="color: #ffc107;"></i>
+              </div>
+              <div class="quote-icon">
+                <i class="bi bi-quote"></i>
+              </div>
+            </div>
+            <div class="testimonial-content">
+              <p>Техническая поддержка всегда на связи и помогает решить любые вопросы. Рекомендуем всем коллегам!</p>
+            </div>
+            <div class="testimonial-footer">
+              <div class="client-info">
+                <h4>Анна Сидорова</h4>
+                <span>Инженер, "ПромСтрой"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section><!-- /Отзывы клиентов Section -->
+      <!-- Services Section -->
+      <section id="services" class="services section">
+  
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Услуги</h2>
+          <p>Полный спектр услуг по подбору, установке и обслуживанию шин для тяжелой техники</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container">
+  
+          <div class="row g-5">
+  
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="service-item item-cyan position-relative">
+                <i class="bi bi-activity icon"></i>
+                <div>
+                  <h3>Подбор шин</h3>
+                  <p>Профессиональный подбор шин с учетом типа техники, условий эксплуатации и ваших требований к производительности.</p>
+                  <a href="#hero" class="read-more stretched-link">Узнать больше <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            </div><!-- End Service Item -->
+  
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="service-item item-orange position-relative">
+                <i class="bi bi-broadcast icon"></i>
+                <div>
+                  <h3>Установка и балансировка</h3>
+                  <p>Квалифицированная установка шин с использованием современного оборудования и профессиональной балансировки.</p>
+                  <a href="#hero" class="read-more stretched-link">Узнать больше <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            </div><!-- End Service Item -->
+  
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
+              <div class="service-item item-teal position-relative">
+                <i class="bi bi-easel icon"></i>
+                <div>
+                  <h3>Ремонт и восстановление</h3>
+                  <p>Восстановление поврежденных шин с применением современных технологий ремонта и материалов.</p>
+                  <a href="#hero" class="read-more stretched-link">Узнать больше <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            </div><!-- End Service Item -->
+  
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
+              <div class="service-item item-red position-relative">
+                <i class="bi bi-bounding-box-circles icon"></i>
+                <div>
+                  <h3>Техническая консультация</h3>
+                  <p>Бесплатные консультации по выбору шин, техническому обслуживанию и оптимизации эксплуатации.</p>
+                  <a href="#hero" class="read-more stretched-link">Узнать больше <i class="bi bi-arrow-right"></i></a>
+                </div>
+              </div>
+            </div><!-- End Service Item -->
+  
+          </div>
+  
+        </div>
+  
+      </section><!-- /Services Section -->
+
+      <!-- Portfolio Section -->
+      <section id="portfolio" class="portfolio section">
+  
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Портфолио</h2>
+          <p>Наши проекты и примеры успешного применения шин Nokian Tyres</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container">
+  
+          <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+  
+            <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+              <li data-filter="*" class="filter-active">Все</li>
+              {% for category_code, category_name in categories %}
+                {% if category_code != 'all' %}
+                  <li data-filter=".filter-{{ category_code }}">{{ category_name }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul><!-- End Portfolio Filters -->
+  
+                        <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+              {% for item in portfolio_items %}
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item {{ item.get_filter_class }}">
+                  <div class="portfolio-content">
+                    <img src="{{ item.image.url }}" width="100%" height="250px" alt="{{ item.title }}">
+                    <div class="portfolio-info">
+                      <h4>{{ item.title }}</h4>
+                      <p>{{ item.description }}</p>
+                      <a href="{{ item.image.url }}" title="{{ item.title }}" data-gallery="portfolio-gallery-{{ item.category }}" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                      <a href="tire-selection/" class="details-link" title="Подобрать шины"><i class="bi bi-link-45deg"></i></a>
+                    </div>
+                  </div>
+                </div><!-- End Portfolio Item -->
+              {% empty %}
+                <div class="col-12 text-center">
+                  <p>Портфолио пока пусто. Добавьте элементы через админ-панель.</p>
+                </div>
+              {% endfor %}
+  
+            </div><!-- End Portfolio Container -->
+  
+          </div>
+  
+        </div>
+  
+      </section><!-- /Portfolio Section -->
+
+      <!-- Team Section -->
+      <section id="team" class="team section light-background">
+  
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Команда</h2>
+          <p>Наши опытные специалисты готовы помочь вам с любыми вопросами</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container">
+  
+          <div class="row gy-4">
+  
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+              <div class="team-member">
+                <div class="member-img">
+                  <img src="{% static 'file/assets/img/team/team-1.jpg' %}" class="img-fluid" alt="">
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>Алексей Смирнов</h4>
+                  <span>Генеральный директор</span>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+  
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+              <div class="team-member">
+                <div class="member-img">
+                  <img src="{% static 'file/assets/img/team/team-2.jpg' %}" class="img-fluid" alt="">
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>Елена Козлова</h4>
+                  <span>Менеджер по продукту</span>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+  
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="300">
+              <div class="team-member">
+                <div class="member-img">
+                  <img src="{% static 'file/assets/img/team/team-3.jpg' %}" class="img-fluid" alt="">
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>Дмитрий Иванов</h4>
+                  <span>Технический директор</span>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+  
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="400">
+              <div class="team-member">
+                <div class="member-img">
+                  <img src="{% static 'file/assets/img/team/team-4.jpg' %}" class="img-fluid" alt="">
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+                <div class="member-info">
+                  <h4>Анна Морозова</h4>
+                  <span>Главный бухгалтер</span>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+  
+          </div>
+  
+        </div>
+  
+      </section><!-- /Team Section -->
+
+      <!-- FAQ Section -->
+      <section id="faq" class="faq section light-background">
+
+        <div class="container">
+  
+          <div class="row gy-4">
+  
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+              <div class="content px-xl-5">
+                <h3><span>Часто задаваемые </span><strong>вопросы</strong></h3>
+                <p>
+                  Ответы на самые популярные вопросы о наших шинах и услугах. Если у вас есть дополнительные вопросы, свяжитесь с нами.
+                </p>
+              </div>
+            </div>
+  
+            <div class="col-lg-8" data-aos="fade-up" data-aos-delay="200">
+  
+              <div class="faq-simple">
+                <div class="faq-block" data-faq="1">
+                  <div class="faq-question">
+                    <span class="faq-num">1.</span>
+                    <span class="faq-text">Какие шины подходят для строительной техники?</span>
+                    <span class="faq-btn">+</span>
+                  </div>
+                  <div class="faq-answer">
+                    <p>Для строительной техники мы рекомендуем шины с усиленным каркасом и специальным протектором, обеспечивающим отличное сцепление на различных поверхностях. Наши специалисты помогут подобрать оптимальный вариант для вашей техники.</p>
+                  </div>
+                </div>
+
+                <div class="faq-block" data-faq="2">
+                  <div class="faq-question">
+                    <span class="faq-num">2.</span>
+                    <span class="faq-text">Как часто нужно менять шины на тяжелой технике?</span>
+                    <span class="faq-btn">+</span>
+                  </div>
+                  <div class="faq-answer">
+                    <p>Частота замены шин зависит от интенсивности использования, условий эксплуатации и типа техники. Обычно рекомендуется проводить осмотр каждые 3-6 месяцев и замену при износе протектора до критического уровня.</p>
+                  </div>
+                </div>
+
+                <div class="faq-block" data-faq="3">
+                  <div class="faq-question">
+                    <span class="faq-num">3.</span>
+                    <span class="faq-text">Предоставляете ли вы услуги по ремонту шин?</span>
+                    <span class="faq-btn">+</span>
+                  </div>
+                  <div class="faq-answer">
+                    <p>Да, мы предоставляем полный спектр услуг по ремонту и восстановлению шин, включая ремонт проколов, восстановление протектора и другие виды ремонта. Наши специалисты используют современное оборудование и качественные материалы.</p>
+                  </div>
+                </div>
+
+                <div class="faq-block" data-faq="4">
+                  <div class="faq-question">
+                    <span class="faq-num">4.</span>
+                    <span class="faq-text">Есть ли гарантия на ваши шины?</span>
+                    <span class="faq-btn">+</span>
+                  </div>
+                  <div class="faq-answer">
+                    <p>Все наши шины имеют официальную гарантию производителя. Срок гарантии зависит от модели и типа шин. Мы также предоставляем дополнительную поддержку и консультации в течение всего срока службы шин.</p>
+                  </div>
+                </div>
+
+                <div class="faq-block" data-faq="5">
+                  <div class="faq-question">
+                    <span class="faq-num">5.</span>
+                    <span class="faq-text">Как заказать консультацию специалиста?</span>
+                    <span class="faq-btn">+</span>
+                  </div>
+                  <div class="faq-answer">
+                    <p>Вы можете заказать консультацию, заполнив форму на сайте, позвонив по телефону или написав в WhatsApp/Telegram. Наш специалист свяжется с вами в течение 15 минут и ответит на все вопросы.</p>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+        </div>
+  
+      </section><!-- /Faq Section -->
+
+      <!-- Call to Action Section -->
+      <section id="call-to-action" class="call-to-action section dark-background">
+
+        <div class="container">
+          <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-xl-10">
+              <div class="text-center">
+                <h3>Готовы начать?</h3>
+                <p>Свяжитесь с нами сегодня для получения профессиональной консультации по подбору шин для вашей техники. Наша команда экспертов готова помочь вам сделать правильный выбор.</p>
+                <a class="cta-btn" href="#hero">Связаться с нами</a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </section><!-- /Call To Action Section -->
+
+      <!-- Contact Section -->
+      <section id="contact" class="contact section">
+  
+        <!-- Section Title -->
+        <div class="container section-title" data-aos="fade-up">
+          <h2>Контакты</h2>
+          <p>Свяжитесь с нами для получения профессиональной консультации</p>
+        </div><!-- End Section Title -->
+  
+        <div class="container" data-aos="fade-up" data-aos-delay="100">
+  
+          <div class="row gy-4">
+  
+            <div class="col-lg-4">
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="300">
+                <i class="bi bi-geo-alt flex-shrink-0"></i>
+                <div>
+                  <h3>Адрес</h3>
+                  <p>г. Москва, ул. Тверская, д. 1, офис 100</p>
+                </div>
+              </div><!-- End Info Item -->
+  
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="400">
+                <i class="bi bi-telephone flex-shrink-0"></i>
+                <div>
+                  <h3>Позвоните нам</h3>
+                  <p>+7 (495) 123-45-67</p>
+                </div>
+              </div><!-- End Info Item -->
+  
+              <div class="info-item d-flex" data-aos="fade-up" data-aos-delay="500">
+                <i class="bi bi-envelope flex-shrink-0"></i>
+                <div>
+                  <h3>Напишите нам</h3>
+                  <p>info@nokiantyres.ru</p>
+                </div>
+              </div><!-- End Info Item -->
+  
+            </div>
+  
+            <div class="col-lg-8">
+
+                        <div class="map-container">
+                          <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.371615257803!2d37.6172993!3d55.755826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a50b315e573%3A0xa886bf5a3d9b2e68!2z0KLQstC10YDRgdC60LDRjyDRg9C7Liwg0JzQvtGB0LrQvtCy0YHQutC40Lkg0L_QvtC70YzQt9C-0LLQsNGC0LXQu9GMLCDQoNC-0YHRgdC40Y8!5e0!3m2!1sru!2sru!4v1234567890!5m2!1sru!2sru"
+                            width="100%" 
+                            height="450" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                          </iframe>
+                        </div>
+
+            </div><!-- End Contact Form -->
+  
+          </div>
+  
+        </div>
+  
+        <!-- Map Section -->
+        
+  
+      </section><!-- /Contact Section -->
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="container">
+      <h3 class="sitename">Nokian Tyres</h3>
+      <p>Ведущий производитель шин для тяжелой техники. Качество, надежность и инновации для вашего бизнеса.</p>
+      <div class="social-links d-flex justify-content-center">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-skype"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+      </div>
+      <div class="container">
+        <div class="copyright">
+          <span>Авторские права</span> <strong class="px-1 sitename">Nokian Tyres</strong> <span>Все права защищены</span>
+        </div>
+        <div class="credits">
+          <!-- All the links in the footer should remain intact. -->
+          <!-- You can delete the links only if you've purchased the pro version. -->
+          <!-- Licensing information: https://bootstrapmade.com/license/ -->
+          <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+          Дизайн от <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'file/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/waypoints/noframework.waypoints.js' %}"></script>
+  <script src="{% static 'file/assets/vendor/php-email-form/validate.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'file/assets/js/main.js' %}"></script>
+  
+  <!-- Tire Selection JS -->
+  <script src="{% static 'assets/js/tire-selection.js' %}"></script>
+
+  <!-- Portfolio Filtering Script -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 Portfolio filtering script loaded');
+      
+      // Wait for everything to load
+      setTimeout(() => {
+          const portfolioSection = document.querySelector('#portfolio');
+          if (!portfolioSection) {
+              console.error('❌ Portfolio section not found!');
+              return;
+          }
+          console.log('✅ Portfolio section found');
+
+          const filterButtons = portfolioSection.querySelectorAll('.portfolio-filters li');
+          const portfolioItems = portfolioSection.querySelectorAll('.portfolio-item');
+
+          console.log(`✅ Found ${filterButtons.length} filter buttons`);
+          console.log(`✅ Found ${portfolioItems.length} portfolio items`);
+
+          // Log details for debugging
+          filterButtons.forEach((btn, index) => {
+              console.log(`Filter ${index}: "${btn.textContent.trim()}" -> "${btn.getAttribute('data-filter')}"`);
+          });
+
+          portfolioItems.forEach((item, index) => {
+              const classes = Array.from(item.classList);
+              console.log(`Item ${index}: classes = [${classes.join(', ')}]`);
+          });
+
+          // Add click events to filter buttons
+          filterButtons.forEach(function(filterBtn) {
+              filterBtn.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  console.log(`🔄 Filter clicked: "${this.textContent.trim()}"`);
+                  
+                  // Remove active class from all filters
+                  filterButtons.forEach(btn => btn.classList.remove('filter-active'));
+                  
+                  // Add active class to clicked filter
+                  this.classList.add('filter-active');
+                  
+                  // Get filter value
+                  const filterValue = this.getAttribute('data-filter');
+                  console.log(`🎯 Filtering by: ${filterValue}`);
+                  
+                  // Apply filter
+                  portfolioItems.forEach(function(item, index) {
+                      if (filterValue === '*') {
+                          // Show all items
+                          console.log(`👁️ Showing item ${index} (show all)`);
+                          item.style.display = 'block';
+                          item.style.opacity = '1';
+                          item.style.transform = 'scale(1)';
+                          item.style.transition = 'all 0.3s ease';
+                      } else {
+                          // Check if item has the filter class
+                          const filterClass = filterValue.replace('.', '');
+                          const hasFilterClass = item.classList.contains(filterClass);
+                          
+                          console.log(`🔍 Item ${index} has class "${filterClass}": ${hasFilterClass}`);
+                          
+                          if (hasFilterClass) {
+                              console.log(`👁️ Showing item ${index}`);
+                              item.style.display = 'block';
+                              item.style.opacity = '1';
+                              item.style.transform = 'scale(1)';
+                              item.style.transition = 'all 0.3s ease';
+                          } else {
+                              console.log(`🚫 Hiding item ${index}`);
+                              item.style.opacity = '0';
+                              item.style.transform = 'scale(0.8)';
+                              item.style.transition = 'all 0.3s ease';
+                              setTimeout(() => {
+                                  item.style.display = 'none';
+                              }, 300);
+                          }
+                      }
+                  });
+              });
+          });
+
+          console.log('✅ Portfolio filtering initialized successfully!');
+          
+      }, 1000); // Wait 1 second for everything to load
+  });
+  </script>
+
+  <!-- FAQ JavaScript -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 FAQ script loaded');
+      
+      const faqBlocks = document.querySelectorAll('.faq-block');
+      console.log('✅ Found', faqBlocks.length, 'FAQ blocks');
+      
+      faqBlocks.forEach(function(block, index) {
+          const question = block.querySelector('.faq-question');
+          const btn = block.querySelector('.faq-btn');
+          
+          console.log('FAQ block', index, ':', {
+              question: question ? 'found' : 'missing',
+              btn: btn ? 'found' : 'missing'
+          });
+          
+          if (question && btn) {
+              question.addEventListener('click', function() {
+                  console.log('🔄 FAQ block', index, 'clicked');
+                  
+                  // Close all other blocks
+                  faqBlocks.forEach(function(otherBlock) {
+                      if (otherBlock !== block) {
+                          otherBlock.classList.remove('active');
+                          const otherBtn = otherBlock.querySelector('.faq-btn');
+                          if (otherBtn) {
+                              otherBtn.textContent = '+';
+                          }
+                      }
+                  });
+                  
+                  // Toggle current block
+                  if (block.classList.contains('active')) {
+                      block.classList.remove('active');
+                      btn.textContent = '+';
+                      console.log('❌ FAQ block', index, 'closed');
+                  } else {
+                      block.classList.add('active');
+                      btn.textContent = '×';
+                      console.log('✅ FAQ block', index, 'opened');
+                  }
+              });
+              
+              console.log('✅ FAQ block', index, 'event listener attached');
+          }
+      });
+      
+      console.log('✅ FAQ initialization complete');
+  });
+  </script>
+
+</body>
+
+</html>

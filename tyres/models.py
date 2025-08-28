@@ -75,16 +75,16 @@ class TireApplication(models.Model):
 
 class PortfolioItem(models.Model):
     CATEGORY_CHOICES = [
+        ('all', 'Все шины'),
         ('summer', 'Летние шины'),
         ('winter', 'Зимние шины'),
         ('all_season', 'Всесезонные'),
         ('suv', 'Внедорожники'),
-        ('passenger', 'Легковые'),
     ]
     
     title = models.CharField(max_length=200, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, verbose_name='Категория')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, verbose_name='Категория', default='all')
     image = models.ImageField(upload_to='portfolio/', verbose_name='Изображение')
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена', null=True, blank=True)
     size = models.CharField(max_length=50, verbose_name='Размер', null=True, blank=True)
