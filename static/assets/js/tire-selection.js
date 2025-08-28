@@ -475,14 +475,84 @@ class TireSelection {
 
     
     saveApplicationToDatabase() {
-        // Здесь будет логика сохранения заявки в базу данных
-        console.log('Saving application:', this.quizData);
+        // Validate form data
+        if (!this.validateCurrentStep()) {
+            return;
+        }
         
-        // Показать сообщение об успехе
-        alert('Заявка успешно отправлена! Мы свяжемся с вами в ближайшее время.');
+        // Prepare data for submission
+        const formData = {
+            selection_type: this.quizData.selectionType,
+            car_make: this.quizData.carMake || '',
+            car_model: this.quizData.carModel || '',
+            tire_width: this.quizData.tireWidth || null,
+            tire_profile: this.quizData.tireProfile || null,
+            tire_radius: this.quizData.tireRadius || null,
+            season: this.quizData.season,
+            winter_type: this.quizData.winterType || '',
+            budget: this.quizData.budget,
+            priority: this.quizData.priority,
+            full_name: this.quizData.fullName,
+            phone: this.quizData.phone,
+            email: this.quizData.email || ''
+        };
         
-        // Сбросить форму
-        this.resetForm();
+        // Show loading state
+        const submitBtn = document.getElementById('submitApplicationBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Отправка...';
+        }
+        
+        // Send data to backend
+        fetch('/save-application/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': this.getCSRFToken()
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Show success message
+                alert(data.message);
+                
+                // Reset form
+                this.resetForm();
+            } else {
+                // Show error message
+                alert('Ошибка: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Произошла ошибка при отправке заявки. Попробуйте еще раз.');
+        })
+        .finally(() => {
+            // Reset button state
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send me-2"></i>Отправить заявку';
+            }
+        });
+    }
+    
+    getCSRFToken() {
+        const name = 'csrftoken';
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
     
     resetForm() {

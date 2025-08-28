@@ -2324,6 +2324,8 @@ body #portfolio .row.gy-4 > .col-md-6 img {
   display: block !important;
 }
 
+
+
 body #portfolio .portfolio .portfolio-info,
 body #portfolio .portfolio .isotope-item .portfolio-info,
 body #portfolio .portfolio .portfolio-item .portfolio-info {
@@ -6550,3 +6552,8 @@ body #portfolio .portfolio .isotope-container > .col-md-6 {
   min-height: 350px !important;
   box-sizing: border-box !important;
 }
+
+
+
+
+
