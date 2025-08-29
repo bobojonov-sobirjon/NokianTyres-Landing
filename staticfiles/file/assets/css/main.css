@@ -1681,11 +1681,17 @@ section,
   padding: 0;
   font-size: 15px;
 }
+.price-tag {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 10px 0 0 0; /* Top: 10px, Right: 0, Bottom: 5px, Left: 0 */
+}
 
 .portfolio-details .portfolio-info ul li {
   display: flex;
   flex-direction: column;
-  padding-bottom: 15px;
+  padding-bottom: 30px;
 }
 
 .portfolio-details .portfolio-info ul strong {
